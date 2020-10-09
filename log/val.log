@@ -1,0 +1,5 @@
+Epoch = 1, validation loss =  0.411849707365036, validation accuracy = 0.8285 
+Epoch = 2, validation loss =  0.38929104804992676, validation accuracy = 0.828 
+Epoch = 3, validation loss =  0.36947309970855713, validation accuracy = 0.842 
+Epoch = 4, validation loss =  0.3522579073905945, validation accuracy = 0.8545 
+Epoch = 5, validation loss =  0.3451148271560669, validation accuracy = 0.858 
