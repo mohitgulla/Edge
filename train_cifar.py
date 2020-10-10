@@ -1,5 +1,6 @@
 import time
 import torch
+import os
 import torch.nn as nn
 import torchvision
 import torchvision.transforms as transforms
@@ -42,7 +43,7 @@ def get_accuracy(logits, labels):
   return (matches.sum(), len(labels))
 
 
-def evaluate(model, test_set, batch_size, criterion, ep):
+def evaluate(model, test_set, batch_size, criterion, ep = 0):
   test_loader = torch.utils.data.DataLoader(dataset = test_set, batch_size = batch_size, shuffle=True)
   test_iterator = tqdm(test_loader, desc = 'Eval Iteration for epoch:'+str(ep+1), ncols = 900)
   device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
@@ -132,31 +133,35 @@ def train(model, train_set, val_set, test_set , batch_size = 16, learning_rate =
   val_log.close()
   test_log.close()
 
-def main():
-## main
+def main(load_model = False):
+### config params
   input_dim =  10
   output_classes = 1
   learning_rate = 0.001
   batch_size = 4
-  epochs = 10
+  epochs = 5
   eval_steps = 100
-  ####
+  model_dir = 'model_artifacts'
+  model_name = 'cifar_model.pt'
+####
 
 
   train_set, val_set, test_set = None, None, None
   train_set = get_cifar_dataset(train = True)
   val_set = get_cifar_dataset(train = False)
 
+  if load_model == True:
+    model = torch.load(os.path.join(model_dir, model_name))
+    criterion = nn.CrossEntropyLoss()
+    val_loss, val_accuracy = evaluate(model, val_set, batch_size, criterion)
+    print("Running evaluation on loaded model, validation loss = %f, validation accuracy = %f"%(val_loss, val_accuracy))
 
-
-
-  model = CNN()
-
-
-
-  train(model, train_set, val_set, test_set , batch_size = batch_size, learning_rate = learning_rate, epochs = epochs, eval_steps = eval_steps, skip_train_set = True)
+  else:
+    model = CNN()
+    train(model, train_set, val_set, test_set , batch_size = batch_size, learning_rate = learning_rate, epochs = epochs, eval_steps = eval_steps, skip_train_set = True)
+    torch.save(model, os.path.join(model_dir, model_name))
 
 
 if __name__ == "__main__":
-  main()
+  main(load_model = False)
 
