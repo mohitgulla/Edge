@@ -1,21 +1,23 @@
 import time
 import torch
-import torch.nn as nn
+import os
 from model.dnn import DenseNeuralNet
 from data.mv_data import MVDataset
+import torch.nn as nn
 from utils.util_functions import *
 from tqdm.auto import trange, tqdm
-from tqdm import trange
-from torch.utils.data import Subset
-from sklearn.model_selection import train_test_split
+import numpy as np
+from datetime import datetime
+
+#Setting Random Seed
+np.random.seed(0)
+torch.manual_seed(0)
 
 
 def evaluate(model, test_set, batch_size, criterion, ep):
   test_loader = torch.utils.data.DataLoader(dataset = test_set, batch_size = batch_size, shuffle=True)
   test_iterator = tqdm(test_loader, desc = 'Eval Iteration for epoch:'+str(ep+1), ncols = 900)
   device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-  
-  
 
   model.eval()
   global_step = 0
@@ -44,11 +46,12 @@ def train(model, train_set, val_set, test_set , batch_size = 16, learning_rate =
   optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
   # optimizer = torch.optim.SGD(model.parameters(), lr=learning_rate, momentum=0.9)
   
-  train_log = open("log/train.log", "w")
-  val_log = open("log/val.log", "w")
-  test_log = open("log/test.log", "w")
+  time_stamp = str(datetime.now())
+  filename = "MV_Dataset_" + time_stamp
+  train_log = open("log/"+ filename +"_train.log", "w")
+  val_log = open("log/"+ filename +"_val.log", "w")
+  test_log = open("log/"+ filename +"_test.log", "w")
   
-
   train_loader = torch.utils.data.DataLoader(dataset= train_set, batch_size=batch_size, shuffle=True)
   global_step = 0
   for ep in tqdm(range(epochs), desc = ' Epoch Progress:', ncols=900):
@@ -93,21 +96,63 @@ def main():
   output_classes = 1
   learning_rate = 0.001
   batch_size = 16
-  epochs = 10
+  epochs = 20
   eval_steps = 100
+   ####
+  model_dir = 'model_artifacts'
+  model_simple_name = 'mv_simple.pt'
+  model_complex_name = 'mv_complex.pt'
   ####
+  mv_dataset = MVDataset()
+  train_set, val_set, test_set = get_get_train_val_test(mv_dataset, 
+                                                        val_split=0.40)
 
-  churn_dataset = MVDataset()
-  train_set, val_set, test_set = get_get_train_val_test(churn_dataset, val_split=0.40)
+  print("-------------------------------------------------------")
+  print("Training Model: 1")
+  model_simple = DenseNeuralNet(input_size = input_dim, 
+                                 num_classes = output_classes,
+                                 layers = [10],
+                                 dropout_prob=0,
+                                 batch_norm=False)   
+  print("-------------------------------------------------------")
+  print(model_simple)
+  print("-------------------------------------------------------")
+  criterion = nn.CrossEntropyLoss()
+  optimizer = torch.optim.Adam(model_simple.parameters(), lr=learning_rate)
 
+  train(model = model_simple,
+        train_set = train_set, 
+        val_set = val_set, 
+        test_set = test_set , 
+        batch_size = batch_size, 
+        learning_rate = learning_rate, 
+        epochs = epochs, 
+        eval_steps = eval_steps,
+        skip_train_set=False)  
+  torch.save(model_simple, os.path.join(model_dir, model_simple_name))
+  print("-------------------------------------------------------")
+  print("Training Model: 2")
+  model_complex = DenseNeuralNet(input_size = input_dim, 
+                                 num_classes = output_classes,
+                                 layers = [50,100,100,50],
+                                 dropout_prob=0.10,
+                                 batch_norm=False)  
+  print("-------------------------------------------------------")
+  print(model_complex)
+  print("-------------------------------------------------------")
+  criterion = nn.CrossEntropyLoss()
+  optimizer = torch.optim.Adam(model_complex.parameters(), lr=learning_rate)
 
-  model = DenseNeuralNet(input_dim, output_classes)
-
-
-
-  train(model, train_set, val_set, test_set , batch_size = batch_size, learning_rate = learning_rate, epochs = epochs, eval_steps = eval_steps, skip_train_set = True)
-
-
+  train(model = model_complex,
+        train_set = train_set, 
+        val_set = val_set, 
+        test_set = test_set , 
+        batch_size = batch_size, 
+        learning_rate = learning_rate, 
+        epochs = epochs, 
+        eval_steps = eval_steps,
+        skip_train_set=False)  
+  torch.save(model_complex, os.path.join(model_dir, model_complex_name))
+  
 if __name__ == "__main__":
   main()
-

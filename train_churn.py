@@ -1,21 +1,25 @@
 import time
 import torch
+import os
 from model.dnn import DenseNeuralNet
 from data.churn_data import ChurnDataset
 import torch.nn as nn
 from utils.util_functions import *
 from tqdm.auto import trange, tqdm
-from torch.utils.data import Subset
-from sklearn.model_selection import train_test_split
+import numpy as np
+from datetime import datetime
 
+
+
+#Setting Random Seed
+np.random.seed(0)
+torch.manual_seed(0)
 
 def evaluate(model, test_set, batch_size, criterion, ep):
   test_loader = torch.utils.data.DataLoader(dataset = test_set, batch_size = batch_size, shuffle=True)
   test_iterator = tqdm(test_loader, desc = 'Eval Iteration for epoch:'+str(ep+1), ncols = 900)
   device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
   
-   
-
   model.eval()
   global_step = 0
   total_correct = 0
@@ -40,17 +44,16 @@ def evaluate(model, test_set, batch_size, criterion, ep):
   
   return (total_loss, acc)
 
-
 def train(model, train_set, val_set, test_set , batch_size = 16, learning_rate = 0.03, epochs = 5, eval_steps = 10, skip_train_set = True):
   criterion = nn.CrossEntropyLoss()
   device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
   model = model.to(device)
   optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
-  
-  
-  train_log = open("log/train.log", "w")
-  val_log = open("log/val.log", "w")
-  test_log = open("log/test.log", "w")
+  time_stamp = str(datetime.now())
+  filename = "Churn_Dataset_" + time_stamp
+  train_log = open("log/"+ filename +"_train.log", "w")
+  val_log = open("log/"+ filename +"_val.log", "w")
+  test_log = open("log/"+ filename +"_test.log", "w")
   
 
   train_loader = torch.utils.data.DataLoader(dataset= train_set, batch_size=batch_size, shuffle=True)
@@ -74,7 +77,6 @@ def train(model, train_set, val_set, test_set , batch_size = 16, learning_rate =
       loss.backward()
       optimizer.step()
 
-      
     val_loss, val_accuracy = evaluate(model, val_set, batch_size, criterion, ep)
     val_log.write("Epoch = {}, validation loss =  {}, validation accuracy = {} \n".format(ep+1, val_loss, val_accuracy))
     
@@ -99,23 +101,62 @@ def main():
   output_classes = 2
   learning_rate = 0.001
   batch_size = 16
-  epochs = 5
+  epochs = 10
   eval_steps = 100
   ####
-
+  model_dir = 'model_artifacts'
+  model_simple_name = 'churn_simple.pt'
+  model_complex_name = 'churn_complex.pt'
+  ####
   churn_dataset = ChurnDataset()
-  train_set, val_set, test_set = get_get_train_val_test(churn_dataset, val_split=0.40)
-
-
-  model = DenseNeuralNet(input_dim, output_classes)
+  train_set, val_set, test_set = get_get_train_val_test(churn_dataset, 
+                                                        val_split=0.40)
+  print("-------------------------------------------------------")
+  print("Training Model: 1")
+  model_simple = DenseNeuralNet(input_size = input_dim, 
+                                 num_classes = output_classes,
+                                 layers = [10],
+                                 dropout_prob=0,
+                                 batch_norm=False)   
+  print("-------------------------------------------------------")
+  print(model_simple)
+  print("-------------------------------------------------------")
   criterion = nn.CrossEntropyLoss()
-  optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate)
+  optimizer = torch.optim.Adam(model_simple.parameters(), lr=learning_rate)
 
-  train(model, train_set, val_set, test_set , batch_size = batch_size, learning_rate = learning_rate, epochs = epochs, eval_steps = eval_steps)
+  train(model = model_simple,
+        train_set = train_set, 
+        val_set = val_set, 
+        test_set = test_set , 
+        batch_size = batch_size, 
+        learning_rate = learning_rate, 
+        epochs = epochs, 
+        eval_steps = eval_steps,
+        skip_train_set=False)  
+  torch.save(model_simple, os.path.join(model_dir, model_simple_name))
+  print("-------------------------------------------------------")
+  print("Training Model: 2")
+  model_complex = DenseNeuralNet(input_size = input_dim, 
+                                 num_classes = output_classes,
+                                 layers = [20,40,60],
+                                 dropout_prob=0.10,
+                                 batch_norm=False)  
+  print("-------------------------------------------------------")
+  print(model_complex)
+  print("-------------------------------------------------------")
+  criterion = nn.CrossEntropyLoss()
+  optimizer = torch.optim.Adam(model_complex.parameters(), lr=learning_rate)
 
-
-
-
+  train(model = model_complex,
+        train_set = train_set, 
+        val_set = val_set, 
+        test_set = test_set , 
+        batch_size = batch_size, 
+        learning_rate = learning_rate, 
+        epochs = epochs, 
+        eval_steps = eval_steps,
+        skip_train_set=False)  
+  torch.save(model_complex, os.path.join(model_dir, model_complex_name))
+  
 if __name__ == "__main__":
   main()
-

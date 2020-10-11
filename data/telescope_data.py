@@ -14,15 +14,15 @@ MY_GOOGLE_DRIVE_PATH = 'My Drive/Capstone Project'
 class TelescopeDataset(Dataset):
     """ Pytorch dataset for Telescope """
 
-    def __init__(self, csv_file = 'magic.dat', path = 'data/'):
+    def __init__(self, csv_file = 'telescope.dat', path = 'data/'):
         """
         constructor to load a csv, preprocess it into torch Dataset
         """
 
         self.dataset = pd.read_table(path + csv_file, header=None, delimiter=',')
-        self.dataset.columns = ['FLength', 'FWidth', 'FSize', 'FConc', 'FConc1', 'FAsym', 
+        self.dataset.columns = ['FLength', 'FWidth', 'FSize', 'FConc', 'FConc1', 'FAsym',
                      'FM3Long', 'FM3Trans', 'FAlpha', 'FDist', 'Class']
-        
+
         scaler = StandardScaler()
         data = scaler.fit_transform(self.dataset.iloc[:, :-1])
         target = LabelEncoder().fit_transform(self.dataset.Class)
