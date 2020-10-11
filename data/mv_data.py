@@ -10,7 +10,6 @@ from sklearn.compose import make_column_transformer
 ROOT = '/content/gdrive/'
 MY_GOOGLE_DRIVE_PATH = 'My Drive/Capstone Project'
 
-data_dir = ROOT + MY_GOOGLE_DRIVE_PATH + '/Edge/data/'
 class MVDataset(Dataset):
     """ Pytorch dataset for Telescope """
 

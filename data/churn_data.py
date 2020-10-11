@@ -9,13 +9,12 @@ from sklearn.compose import make_column_transformer
 
 ROOT = '/content/gdrive/'
 MY_GOOGLE_DRIVE_PATH = 'My Drive/Capstone Project'
-data_dir = ROOT + MY_GOOGLE_DRIVE_PATH + '/Edge/data/'
 
 
 class ChurnDataset(Dataset):
     """ Pytorch dataset for Churn """
 
-    def __init__(self, csv_file = 'churn.csv', path = data_dir):
+    def __init__(self, csv_file = 'churn.csv', path = 'data/'):
         """
         constructor to load a csv, preprocess it into torch Dataset
         """
