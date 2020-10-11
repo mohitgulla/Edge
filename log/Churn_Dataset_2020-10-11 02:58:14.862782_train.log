@@ -1,0 +1,10 @@
+Epoch = 1, training loss =  0.4407084584236145, training accuracy = 0.7983333333333333 
+Epoch = 2, training loss =  0.4159199297428131, training accuracy = 0.8118333333333333 
+Epoch = 3, training loss =  0.3948700726032257, training accuracy = 0.8273333333333334 
+Epoch = 4, training loss =  0.3749821186065674, training accuracy = 0.842 
+Epoch = 5, training loss =  0.3680889308452606, training accuracy = 0.8475 
+Epoch = 6, training loss =  0.3566836714744568, training accuracy = 0.8511666666666666 
+Epoch = 7, training loss =  0.3525741696357727, training accuracy = 0.8515 
+Epoch = 8, training loss =  0.349232941865921, training accuracy = 0.854 
+Epoch = 9, training loss =  0.3472457230091095, training accuracy = 0.8556666666666667 
+Epoch = 10, training loss =  0.34592387080192566, training accuracy = 0.8558333333333333 

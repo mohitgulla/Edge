@@ -4,13 +4,13 @@ import pandas as pd
 import torch
 from torch.utils.data import Dataset
 from collections import Counter
-from sklearn.preprocessing import OneHotEncoder, LabelEncoder, StandardScaler
+from sklearn.preprocessing import MinMaxScaler
 from sklearn.compose import make_column_transformer
 
 ROOT = '/content/gdrive/'
 MY_GOOGLE_DRIVE_PATH = 'My Drive/Capstone Project'
 
-
+data_dir = ROOT + MY_GOOGLE_DRIVE_PATH + '/Edge/data/'
 class MVDataset(Dataset):
     """ Pytorch dataset for Telescope """
 
@@ -19,12 +19,12 @@ class MVDataset(Dataset):
         constructor to load a csv, preprocess it into torch Dataset
         """
 
-        self.dataset = pd.read_table(path + csv_file, header=None, delimiter=',')
-        self.dataset.columns = ['X1', 'X2', 'X3', 'X4', 'X5', 'X6', 
+        self.dataset = pd.read_table(path + csv_file,skiprows=15,delimiter=",",header=None)
+        self.dataset.columns = ['X1', 'X2', 'X3', 'X4', 'X5', 'X6',
                      'X7', 'X8', 'X9', 'X10', 'Y']
 
 
-        scaler = StandardScaler()
+        scaler = MinMaxScaler()
         data = scaler.fit_transform(self.dataset.iloc[:, :-1])
         target = np.asarray(self.dataset.Y)
 
