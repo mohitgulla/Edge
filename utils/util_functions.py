@@ -1,5 +1,8 @@
 import torch
-import torchvision
+import random
+import numpy as np
+import pandas as pd
+
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 from torch.utils.data import Subset
@@ -55,3 +58,77 @@ def get_accuracy(logits, labels):
   return (matches.sum(), len(labels))
 
 
+def quantization(model_name, method='all'):
+    precision = [16, 12, 8, 4, 2, 1, 0]
+    model_object = '../model_artifacts/' + model_name
+    results = pd.DataFrame(columns=['model', 'method', 'precision', 'model_artifact',
+                                    'train_loss', 'train_acc', 'test_loss', 'test_acc'])
+    model = torch.load(model_object, map_location=torch.device('cpu'))
+    results = results.append(
+        {'model': model_name, 'method': 'no rounding', 'precision': 32, 'model_artifact': model},
+        ignore_index=True
+    )
+
+    # normal rounding
+    if method == 'rounding' or method == 'all':
+        for p in precision:
+            weights = dict()
+            model = torch.load(model_object, map_location=torch.device('cpu'))
+
+            for name, params in model.named_parameters():
+                weights[name] = params.clone()
+            for w in weights:
+                weights[w] = torch.round(weights[w] * 10**p) / (10**p)
+            for name, params in model.named_parameters():
+                params.data.copy_(weights[name])
+
+            results = results.append(
+                {'model': model_name, 'method': 'rounding', 'precision': p, 'model_artifact': model},
+                ignore_index=True
+            )
+
+    # mid-rise quantization
+    if method == 'mid-rise' or method == 'all':
+        for p in precision:
+            weights = dict()
+            model = torch.load(model_object, map_location=torch.device('cpu'))
+
+            for name, params in model.named_parameters():
+                weights[name] = params.clone()
+            for w in weights:
+                if len(weights[w]) == 1:
+                    delta = weights[w] / 2**p
+                else:
+                    delta = (torch.max(weights[w]) - torch.min(weights[w])) / 2**p
+                weights[w] = delta * torch.floor(weights[w]/delta) + 0.5
+            for name, params in model.named_parameters():
+                params.data.copy_(weights[name])
+
+            results = results.append(
+                {'model': model_name, 'method': 'mid-rise', 'precision': p, 'model_artifact': model},
+                ignore_index=True
+            )
+
+    # stochastic rounding
+    if method == 'stochastic' or method == 'all':
+        for p in precision:
+            weights = dict()
+            model = torch.load(model_object, map_location=torch.device('cpu'))
+
+            for name, params in model.named_parameters():
+                weights[name] = params.clone()
+            for w in weights:
+                fix = torch.sign(weights[w]) * 10**p
+                weights[w] = weights[w] * fix
+                diff = weights[w] - torch.floor(weights[w])
+                round = torch.floor(weights[w]) + torch.tensor(np.random.binomial(1, diff.data.numpy()))
+                weights[w] = round / fix
+            for name, params in model.named_parameters():
+                params.data.copy_(weights[name])
+
+            results = results.append(
+                {'model': model_name, 'method': 'stochastic', 'precision': p, 'model_artifact': model},
+                ignore_index=True
+            )
+
+    return results
