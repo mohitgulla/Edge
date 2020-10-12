@@ -1,0 +1,10 @@
+Epoch = 1, validation loss =  0.4261165261268616, validation accuracy = 0.7986330178759201 
+Epoch = 2, validation loss =  0.40956246852874756, validation accuracy = 0.8073080967402734 
+Epoch = 3, validation loss =  0.39626219868659973, validation accuracy = 0.8178233438485805 
+Epoch = 4, validation loss =  0.3825727701187134, validation accuracy = 0.8296529968454258 
+Epoch = 5, validation loss =  0.37434136867523193, validation accuracy = 0.8414826498422713 
+Epoch = 6, validation loss =  0.3673335611820221, validation accuracy = 0.8420084121976866 
+Epoch = 7, validation loss =  0.3588810861110687, validation accuracy = 0.8501577287066246 
+Epoch = 8, validation loss =  0.3542468845844269, validation accuracy = 0.8546267087276551 
+Epoch = 9, validation loss =  0.3516053259372711, validation accuracy = 0.8548895899053628 
+Epoch = 10, validation loss =  0.349263995885849, validation accuracy = 0.8577812828601472 
