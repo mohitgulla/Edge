@@ -101,6 +101,35 @@ def train(model, train_set, val_set, test_set , batch_size = 16, learning_rate =
   val_log.close()
   test_log.close()
 
+def quantization_eval_results(model_name,train_set,test_set,batch_size,criterion):
+  results = quantization(model_name)
+  train_loss_list = []
+  train_accuracy_list = []
+  test_loss_list = []
+  test_accuracy_list = []
+  for i in results["model_artifact"]:
+    train_loss, train_accuracy = evaluate(model=i, 
+                                        test_set = train_set,
+                                        batch_size=batch_size, 
+                                        criterion=criterion,
+                                        ep=0) 
+    test_loss, test_accuracy = evaluate(model=i, 
+                                        test_set = test_set,
+                                        batch_size=batch_size, 
+                                        criterion=criterion,
+                                        ep=0)  
+    train_loss_list.append(train_loss.item())
+    test_loss_list.append(test_loss.item())
+    train_accuracy_list.append(train_accuracy)
+    test_accuracy_list.append(test_accuracy)
+    # print("End of training, test loss =  {}, test accuracy = {} \n".format(train_loss, train_accuracy))
+    # print("End of training, test loss =  {}, test accuracy = {} \n".format(test_loss, test_accuracy))
+  results["train_loss"] = train_loss_list
+  results["train_acc"] = train_accuracy_list
+  results["test_loss"] = test_loss_list
+  results["test_acc"] = test_accuracy_list
+  return results
+
 def main():
 ## main
   input_dim =  10
@@ -164,5 +193,12 @@ def main():
         skip_train_set=False)  
   torch.save(model_complex, os.path.join(model_dir, model_complex_name))
   
+  path_result = "data/results/"
+
+  results_simple = quantization_eval_results(model_simple_name,train_set=train_set,test_set=test_set,batch_size=batch_size,criterion=criterion)
+  results_complex = quantization_eval_results(model_complex_name,train_set=train_set,test_set=test_set,batch_size=batch_size,criterion=criterion)
+
+  results_simple.to_csv(path_result + "Telescope_simple.csv")
+  results_complex.to_csv(path_result + "Telescope_complex.csv")
 if __name__ == "__main__":
   main()
