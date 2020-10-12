@@ -119,7 +119,7 @@ def quantization_eval_results(model_name,train_set,test_set,batch_size,criterion
   # results["test_acc"] = test_accuracy_list
   return results
 
-def main():
+def main(train_model = True):
 ## main
   input_dim =  6
   output_classes = 1
@@ -135,60 +135,63 @@ def main():
   california_dataset = CaliforniaDataset()
   train_set, val_set, test_set = get_get_train_val_test(california_dataset, 
                                                         val_split=0.40)
+  if(train_model):
 
-  print("-------------------------------------------------------")
-  print("Training Model: 1")
-  model_simple = DenseNeuralNet(input_size = input_dim, 
-                                 num_classes = output_classes,
-                                 layers = [10],
-                                 dropout_prob=0,
-                                 batch_norm=False)   
-  print("-------------------------------------------------------")
-  print(model_simple)
-  print("-------------------------------------------------------")
-  criterion = nn.MSELoss()
-  optimizer = torch.optim.Adam(model_simple.parameters(), lr=learning_rate)
+    print("-------------------------------------------------------")
+    print("Training Model: 1")
+    model_simple = DenseNeuralNet(input_size = input_dim, 
+                                  num_classes = output_classes,
+                                  layers = [10],
+                                  dropout_prob=0,
+                                  batch_norm=False)   
+    print("-------------------------------------------------------")
+    print(model_simple)
+    print("-------------------------------------------------------")
+    criterion = nn.MSELoss()
+    optimizer = torch.optim.Adam(model_simple.parameters(), lr=learning_rate)
 
-  train(model = model_simple,
-        train_set = train_set, 
-        val_set = val_set, 
-        test_set = test_set , 
-        batch_size = batch_size, 
-        learning_rate = learning_rate, 
-        epochs = epochs, 
-        eval_steps = eval_steps,
-        skip_train_set=False)  
-  torch.save(model_simple, os.path.join(model_dir, model_simple_name))
-  print("-------------------------------------------------------")
-  print("Training Model: 2")
-  model_complex = DenseNeuralNet(input_size = input_dim, 
-                                 num_classes = output_classes,
-                                 layers = [50,100,100,50],
-                                 dropout_prob=0.10,
-                                 batch_norm=False)  
-  print("-------------------------------------------------------")
-  print(model_complex)
-  print("-------------------------------------------------------")
-  criterion = nn.MSELoss()
-  optimizer = torch.optim.Adam(model_complex.parameters(), lr=learning_rate)
+    train(model = model_simple,
+          train_set = train_set, 
+          val_set = val_set, 
+          test_set = test_set , 
+          batch_size = batch_size, 
+          learning_rate = learning_rate, 
+          epochs = epochs, 
+          eval_steps = eval_steps,
+          skip_train_set=False)  
+    torch.save(model_simple, os.path.join(model_dir, model_simple_name))
+    print("-------------------------------------------------------")
+    print("Training Model: 2")
+    model_complex = DenseNeuralNet(input_size = input_dim, 
+                                  num_classes = output_classes,
+                                  layers = [50,100,100,50],
+                                  dropout_prob=0.10,
+                                  batch_norm=False)  
+    print("-------------------------------------------------------")
+    print(model_complex)
+    print("-------------------------------------------------------")
+    criterion = nn.MSELoss()
+    optimizer = torch.optim.Adam(model_complex.parameters(), lr=learning_rate)
 
-  train(model = model_complex,
-        train_set = train_set, 
-        val_set = val_set, 
-        test_set = test_set , 
-        batch_size = batch_size, 
-        learning_rate = learning_rate, 
-        epochs = epochs, 
-        eval_steps = eval_steps,
-        skip_train_set=False)  
-  torch.save(model_complex, os.path.join(model_dir, model_complex_name))
-  path_result = "data/results/"
+    train(model = model_complex,
+          train_set = train_set, 
+          val_set = val_set, 
+          test_set = test_set , 
+          batch_size = batch_size, 
+          learning_rate = learning_rate, 
+          epochs = epochs, 
+          eval_steps = eval_steps,
+          skip_train_set=False)  
+    torch.save(model_complex, os.path.join(model_dir, model_complex_name))
+  else:
+    criterion = nn.MSELoss()
+    path_result = "data/results/"
 
-  results_simple = quantization_eval_results(model_simple_name,train_set=train_set,test_set=test_set,batch_size=batch_size,criterion=criterion)
-  results_complex = quantization_eval_results(model_complex_name,train_set=train_set,test_set=test_set,batch_size=batch_size,criterion=criterion)
+    results_simple = quantization_eval_results(model_simple_name,train_set=train_set,test_set=test_set,batch_size=batch_size,criterion=criterion)
+    results_complex = quantization_eval_results(model_complex_name,train_set=train_set,test_set=test_set,batch_size=batch_size,criterion=criterion)
 
-  results_simple.to_csv(path_result + "california_simple.csv")
-  results_complex.to_csv(path_result + "california_complex.csv")
+    results_simple.to_csv(path_result + "california_simple.csv")
+    results_complex.to_csv(path_result + "california_complex.csv")
 
 if __name__ == "__main__":
-  main()
+  main(train_model=False)
