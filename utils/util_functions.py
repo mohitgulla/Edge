@@ -101,7 +101,7 @@ def quantization(model_name, method='all'):
                     delta = weights[w] / 2**p
                 else:
                     delta = (torch.max(weights[w]) - torch.min(weights[w])) / 2**p
-                weights[w] = delta * torch.floor(weights[w]/delta) + 0.5
+                weights[w] = delta * (torch.floor(weights[w]/delta) + 0.5)
             for name, params in model.named_parameters():
                 params.data.copy_(weights[name])
 
