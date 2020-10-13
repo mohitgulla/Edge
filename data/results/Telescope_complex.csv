@@ -15,7 +15,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.30995503067970276,0.8703995793901157,0.32076752185821533,0.8669821240799159
+)",0.3101646900177002,0.8703995793901157,0.3208671510219574,0.8669821240799159
 1,telescope_complex.pt,rounding,16,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -32,7 +32,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.3096269369125366,0.8703995793901157,0.321065753698349,0.8669821240799159
+)",0.30960410833358765,0.8703995793901157,0.3215183913707733,0.8669821240799159
 2,telescope_complex.pt,rounding,12,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -49,7 +49,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.3097207844257355,0.8703995793901157,0.320979505777359,0.8669821240799159
+)",0.3101183772087097,0.8703995793901157,0.32090288400650024,0.8669821240799159
 3,telescope_complex.pt,rounding,8,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -66,7 +66,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.30981677770614624,0.8703995793901157,0.32121244072914124,0.8669821240799159
+)",0.30972418189048767,0.8703995793901157,0.32108861207962036,0.8669821240799159
 4,telescope_complex.pt,rounding,4,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -83,7 +83,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.3108098804950714,0.8703995793901157,0.3211019039154053,0.8669821240799159
+)",0.30974236130714417,0.8703995793901157,0.32080215215682983,0.8669821240799159
 5,telescope_complex.pt,rounding,2,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -100,7 +100,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.31068697571754456,0.8695233087977567,0.3215603828430176,0.8672450052576236
+)",0.30996063351631165,0.8695233087977567,0.3213854432106018,0.8672450052576236
 6,telescope_complex.pt,rounding,1,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -117,7 +117,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.3203876316547394,0.8640904311251314,0.32995861768722534,0.8617245005257623
+)",0.3215225040912628,0.8640904311251314,0.3297690749168396,0.8617245005257623
 7,telescope_complex.pt,rounding,0,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -151,7 +151,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",3422.8310546875,0.34630213810024535,3259.19482421875,0.3601472134595163
+)",0.3096105754375458,0.8703995793901157,0.32120364904403687,0.8669821240799159
 9,telescope_complex.pt,mid-rise,12,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -168,7 +168,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",3423.92236328125,0.34630213810024535,3254.708740234375,0.3601472134595163
+)",0.3097116947174072,0.8703119523308798,0.32111379504203796,0.8669821240799159
 10,telescope_complex.pt,mid-rise,8,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -185,7 +185,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",3387.457763671875,0.34630213810024535,3214.435302734375,0.3601472134595163
+)",0.30937233567237854,0.8708377146862951,0.3207862079143524,0.8680336487907466
 11,telescope_complex.pt,mid-rise,4,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -202,7 +202,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",2687.8837890625,0.34630213810024535,2560.12451171875,0.3601472134595163
+)",0.3167155683040619,0.8655800911321416,0.3259771168231964,0.8654048370136698
 12,telescope_complex.pt,mid-rise,2,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -219,7 +219,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",1391.2462158203125,0.34630213810024535,1334.250244140625,0.3601472134595163
+)",0.37561866641044617,0.8356992639327024,0.38491642475128174,0.8317560462670873
 13,telescope_complex.pt,mid-rise,1,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -236,7 +236,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",287.84613037109375,0.34630213810024535,278.312255859375,0.3601472134595163
+)",0.8238932490348816,0.6522082018927445,0.833885133266449,0.650105152471083
 14,telescope_complex.pt,mid-rise,0,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -253,7 +253,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",38.816688537597656,0.6331931300385559,38.62616729736328,0.6324921135646687
+)",15.89382266998291,0.6103224675779881,15.999585151672363,0.6161934805467929
 15,telescope_complex.pt,stochastic,16,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -270,7 +270,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.3096221685409546,0.8703995793901157,0.3208954930305481,0.8669821240799159
+)",0.30982816219329834,0.8703995793901157,0.3212029039859772,0.8669821240799159
 16,telescope_complex.pt,stochastic,12,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -287,7 +287,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.30966153740882874,0.8703995793901157,0.32075098156929016,0.8669821240799159
+)",0.3102954626083374,0.8703995793901157,0.32098624110221863,0.8669821240799159
 17,telescope_complex.pt,stochastic,8,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -304,7 +304,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.3098679780960083,0.8703995793901157,0.3210223615169525,0.8669821240799159
+)",0.31032195687294006,0.8703995793901157,0.32124048471450806,0.8669821240799159
 18,telescope_complex.pt,stochastic,4,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -321,7 +321,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.30982065200805664,0.8703995793901157,0.3211870491504669,0.8669821240799159
+)",0.31054240465164185,0.8703995793901157,0.3210214078426361,0.8669821240799159
 19,telescope_complex.pt,stochastic,2,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -338,7 +338,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.31076857447624207,0.8691728005608131,0.32242316007614136,0.8651419558359621
+)",0.31057170033454895,0.8691728005608131,0.32182005047798157,0.8651419558359621
 20,telescope_complex.pt,stochastic,1,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -355,7 +355,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.3157794773578644,0.8703995793901157,0.3212122321128845,0.8675078864353313
+)",0.3152860403060913,0.8703995793901157,0.3210929334163666,0.8675078864353313
 21,telescope_complex.pt,stochastic,0,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=10, out_features=20, bias=True)
@@ -372,4 +372,4 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",2.003154993057251,0.5431125131440588,1.933767318725586,0.5420609884332281
+)",2.0009305477142334,0.5431125131440588,1.9356411695480347,0.5420609884332281

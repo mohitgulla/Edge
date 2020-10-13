@@ -15,7 +15,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.3260705769062042,0.8681666666666666,0.3496952950954437,0.8565
+)",0.3260704576969147,0.8681666666666666,0.34969523549079895,0.8565
 1,churn_complex.pt,rounding,16,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -32,7 +32,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.3260706067085266,0.8681666666666666,0.3496953248977661,0.8565
+)",0.3260706067085266,0.8681666666666666,0.34969523549079895,0.8565
 2,churn_complex.pt,rounding,12,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -49,7 +49,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.32607051730155945,0.8681666666666666,0.3496953845024109,0.8565
+)",0.3260704576969147,0.8681666666666666,0.3496953248977661,0.8565
 3,churn_complex.pt,rounding,8,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -66,7 +66,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.326070636510849,0.8681666666666666,0.3496952950954437,0.8565
+)",0.32607048749923706,0.8681666666666666,0.34969526529312134,0.8565
 4,churn_complex.pt,rounding,4,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -83,7 +83,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.32607272267341614,0.8681666666666666,0.34969282150268555,0.8565
+)",0.326072633266449,0.8681666666666666,0.34969282150268555,0.8565
 5,churn_complex.pt,rounding,2,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -100,7 +100,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.3259974718093872,0.8681666666666666,0.34973835945129395,0.856
+)",0.32599735260009766,0.8681666666666666,0.34973838925361633,0.856
 6,churn_complex.pt,rounding,1,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -117,7 +117,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.3328101634979248,0.8671666666666666,0.3518466651439667,0.853
+)",0.3328101634979248,0.8671666666666666,0.35184669494628906,0.853
 7,churn_complex.pt,rounding,0,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -151,7 +151,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",7926.41650390625,0.2015,7819.7958984375,0.2025
+)",0.3260706067085266,0.8681666666666666,0.34969496726989746,0.8565
 9,churn_complex.pt,mid-rise,12,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -168,7 +168,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",7920.7333984375,0.2015,7814.2041015625,0.2025
+)",0.32607701420783997,0.8681666666666666,0.3497002124786377,0.8565
 10,churn_complex.pt,mid-rise,8,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -185,7 +185,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",7835.8017578125,0.2015,7730.650390625,0.2025
+)",0.32603445649147034,0.8683333333333333,0.34974193572998047,0.855
 11,churn_complex.pt,mid-rise,4,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -202,7 +202,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",5787.39208984375,0.2015,5712.9638671875,0.2025
+)",0.32616904377937317,0.8668333333333333,0.35000646114349365,0.8615
 12,churn_complex.pt,mid-rise,2,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -219,7 +219,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",3191.0009765625,0.2015,3163.344482421875,0.2025
+)",0.37165018916130066,0.8471666666666666,0.3825089633464813,0.839
 13,churn_complex.pt,mid-rise,1,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -236,7 +236,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",268.4939270019531,0.7985,279.02581787109375,0.7975
+)",0.75222247838974,0.8118333333333333,0.8294889330863953,0.8075
 14,churn_complex.pt,mid-rise,0,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -253,7 +253,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",73.61964416503906,0.8163333333333334,78.68700408935547,0.8175
+)",17.36129379272461,0.8013333333333333,19.38529396057129,0.794
 15,churn_complex.pt,stochastic,16,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -270,7 +270,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.3260706067085266,0.8681666666666666,0.3496951758861542,0.8565
+)",0.32607048749923706,0.8681666666666666,0.34969520568847656,0.8565
 16,churn_complex.pt,stochastic,12,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -287,7 +287,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.3260703980922699,0.8681666666666666,0.34969526529312134,0.8565
+)",0.32607051730155945,0.8681666666666666,0.3496953547000885,0.8565
 17,churn_complex.pt,stochastic,8,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -304,7 +304,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.3260705769062042,0.8681666666666666,0.3496954143047333,0.8565
+)",0.32607051730155945,0.8681666666666666,0.34969526529312134,0.8565
 18,churn_complex.pt,stochastic,4,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -321,7 +321,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.32606738805770874,0.8681666666666666,0.3496977388858795,0.8565
+)",0.3260674774646759,0.8681666666666666,0.3496980369091034,0.8565
 19,churn_complex.pt,stochastic,2,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -338,7 +338,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.32612285017967224,0.8683333333333333,0.3498983681201935,0.855
+)",0.3261227309703827,0.8683333333333333,0.34989845752716064,0.855
 20,churn_complex.pt,stochastic,1,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -355,7 +355,7 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.3339344561100006,0.8678333333333333,0.35550445318222046,0.8565
+)",0.3339345157146454,0.8678333333333333,0.3555043339729309,0.8565
 21,churn_complex.pt,stochastic,0,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=13, out_features=20, bias=True)
@@ -372,4 +372,4 @@
     (11): Dropout(p=0.1, inplace=False)
     (12): Linear(in_features=30, out_features=2, bias=True)
   )
-)",0.8168128132820129,0.7475,0.8294596672058105,0.7495
+)",0.8168123960494995,0.7475,0.829459547996521,0.7495
