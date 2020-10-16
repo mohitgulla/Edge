@@ -133,3 +133,77 @@ def quantization(model_name, method='all'):
             )
 
     return results
+
+'''
+Given a "weights" tensor and a "tensor of unique values", 
+This function will quantize all scalar values of "weights" 
+to one of unique values using stochastic quantization.
+Input: 
+  weights = torch.tensor([[1.2,3.4], [2.6, 8.9]])
+  unique_values = torch.tensor([0.5, 1.5])
+'''
+def stochastic_quant(weights, unique_values): 
+  # inner helper function 
+  def stochastic_helper(w):
+    i = 0
+    n = len(unique_values)
+    while(i<n and unique_values[i]<w):
+      i+=1
+
+    # base case
+    if i==0: return unique_values[0]
+    elif i==n: return unique_values[n-1]
+
+    # general case
+    lower, upper = unique_values[i-1], unique_values[i]
+    lower_p = (upper - w)/(upper - lower)
+    lower_pick = np.random.binomial(n=1, p=lower_p.item())
+
+    return lower_pick*lower + (1-lower_pick)*upper
+
+  # soring unique values
+  unique_values = torch.sort(unique_values.flatten()).values.cpu()
+  # apply_ only works on cpu tensor, so making a copy on cpu
+  weights1 = weights.clone().detach().cpu()
+  # apply stochastic quantization to all values in weights
+  weights1.apply_(stochastic_helper)
+  weights1 = weights1.to(weights.device)
+
+  return weights1
+
+'''
+Given a "weights" tensor and a "tensor of unique values", 
+This function will quantize all scalar values of "weights" 
+to the nearest unique value.
+Input: 
+  weights = torch.tensor([[1.2,3.4], [2.6, 8.9]])
+  unique_values = torch.tensor([0.5, 1.5])
+'''
+def rounding_quant(weights, unique_values): 
+  # inner helper function 
+  def rounding_helper(w):
+    i = 0
+    n = len(unique_values)
+    while(i<n and unique_values[i]<w):
+      i+=1
+
+    # base case
+    if i==0: return unique_values[0]
+    elif i==n: return unique_values[n-1]
+
+    # general case
+    lower, upper = unique_values[i-1], unique_values[i]
+    if (w - lower) < (upper - w):
+      return lower
+    return upper
+
+  # soring unique values
+  unique_values = torch.sort(unique_values.flatten()).values.cpu()
+  # apply_ only works on cpu tensor, so making a copy on cpu
+  weights1 = weights.clone().detach().cpu()
+  # apply rounding quantization to all values in weights
+  weights1.apply_(rounding_helper)
+  weights1 = weights1.to(weights.device)
+
+  return weights1
+
