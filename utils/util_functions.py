@@ -7,6 +7,7 @@ import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 from torch.utils.data import Subset
 from sklearn.model_selection import train_test_split
+from scipy.stats import norm
 
 
 def get_cifar_dataset(train = True):
@@ -58,81 +59,61 @@ def get_accuracy(logits, labels):
   return (matches.sum(), len(labels))
 
 
-def quantization(model_name, method='all'):
-    device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    precision = [16, 12, 8, 4, 2, 1, 0]
-    model_object = 'model_artifacts/' + model_name
-    results = pd.DataFrame(columns=['model', 'method', 'precision', 'model_artifact',
-                                    'train_loss', 'train_acc', 'test_loss', 'test_acc'])
-    model = torch.load(model_object, map_location=torch.device(device))
-    results = results.append(
-        {'model': model_name, 'method': 'no rounding', 'precision': 32, 'model_artifact': model},
-        ignore_index=True
-    )
+'''
+Given all weights for a model, the precision and approach, 
+the function calculates a tensor of unique values per layer (weight+bias)
+Returns unique values for the entire model.
+'''
 
-    # normal rounding
-    if method == 'rounding' or method == 'all':
-        for p in precision:
-            weights = dict()
-            model = torch.load(model_object, map_location=torch.device(device))
+def unique_value_generator(weights, precision, approach):
+  #Parse layers names 
+  network_name=list(set([x.rsplit('.',1)[0] for x in list(weights.keys())]))
 
-            for name, params in model.named_parameters():
-                weights[name] = params.clone()
-            for w in weights:
-                weights[w] = torch.round(weights[w] * 10**p) / (10**p)
-            for name, params in model.named_parameters():
-                params.data.copy_(weights[name])
+  unique_values=dict()
+  for i in network_name:
+    weight_bias_comb=torch.cat((torch.flatten(weights[i+'.weight']),weights[i+'.bias']),dim=0) #Flattening the weights tensor and concatenating it with bias
+    
+    #uniform range based on min and max
+    if approach =='uniform_range':
+      min_val=torch.min(weight_bias_comb).item()
+      max_val=torch.max(weight_bias_comb).item()
+      unique_values[i+'.weight']=torch.linspace(start = min_val, end = max_val, steps = 2**precision) 
+      unique_values[i+'.bias']=torch.linspace(start = min_val, end = max_val, steps = 2**precision)
 
-            results = results.append(
-                {'model': model_name, 'method': 'rounding', 'precision': p, 'model_artifact': model},
-                ignore_index=True
-            )
+    #uniform range post outlier removal
+    if approach == 'uniform_range_IQR':
+      weight_bias_comb=np.sort(weight_bias_comb.detach().numpy())
+      Q1 = np.percentile(weight_bias_comb, 25, interpolation = 'midpoint')  
+      Q2 = np.percentile(weight_bias_comb, 50, interpolation = 'midpoint')  
+      Q3 = np.percentile(weight_bias_comb, 75, interpolation = 'midpoint')  
+      IQR=Q3-Q1
+      low_lim = Q1 - 1.5 * IQR 
+      up_lim = Q3 + 1.5 * IQR 
+      unique_values[i+'.weight']=torch.linspace(start = low_lim, end = up_lim, steps = 2**precision)
+      unique_values[i+'.bias']=torch.linspace(start = low_lim, end = up_lim, steps = 2**precision) 
 
-    # mid-rise quantization
-    if method == 'mid-rise' or method == 'all':
-        for p in precision:
-            weights = dict()
-            model = torch.load(model_object, map_location=torch.device(device))
+    #Histogram based bins. Midpoint of bin edges is used as unique values
+    if approach == 'histogram':
+      bin_edges=np.histogram_bin_edges(weight_bias_comb.detach().numpy(), bins=2**precision)
+      bin_edges=list(map(lambda i, j : (i + j)/2, bin_edges[: -1], bin_edges[1: ])) 
+      unique_values[i+'.weight']=torch.tensor(np.array(bin_edges))
+      unique_values[i+'.bias']=torch.tensor(np.array(bin_edges))
 
-            for name, params in model.named_parameters():
-                weights[name] = params.clone()
-            for w in weights:
-                if len(weights[w]) == 1:
-                    delta = weights[w] / 2**p
-                else:
-                    delta = (torch.max(weights[w]) - torch.min(weights[w])) / 2**p
-                weights[w] = delta * (torch.floor(weights[w]/delta) + 0.5)
-            for name, params in model.named_parameters():
-                params.data.copy_(weights[name])
+    #Range based on quantiles of a normal distribution
+    if approach == 'prior_normal':
+      mean_val=torch.mean(weight_bias_comb).item()
+      std_val=torch.std(weight_bias_comb).item()
+      quantiles=np.linspace(0, 1, num=2**precision) #Quantile 
+      quantiles=quantiles[:-1][1:] #Removing 1st and last element 
+      unique_intm = list(map(lambda x : norm.ppf(x,loc=mean_val,scale=std_val), quantiles)) 
+      unique_intm.append(torch.min(weight_bias_comb).item())
+      unique_intm.append(torch.max(weight_bias_comb).item())
+      unique_intm=torch.tensor(np.array(unique_intm))
+      unique_values[i+'.weight']=unique_intm
+      unique_values[i+'.bias']=unique_intm
+      
+  return unique_values
 
-            results = results.append(
-                {'model': model_name, 'method': 'mid-rise', 'precision': p, 'model_artifact': model},
-                ignore_index=True
-            )
-
-    # stochastic rounding
-    if method == 'stochastic' or method == 'all':
-        for p in precision:
-            weights = dict()
-            model = torch.load(model_object, map_location=torch.device(device))
-
-            for name, params in model.named_parameters():
-                weights[name] = params.clone()
-            for w in weights:
-                fix = torch.sign(weights[w]) * 10**p
-                weights[w] = weights[w] * fix
-                diff = weights[w] - torch.floor(weights[w])
-                round = torch.floor(weights[w]) + torch.tensor(np.random.binomial(1, diff.cpu().data.numpy()),device=device)
-                weights[w] = round / fix
-            for name, params in model.named_parameters():
-                params.data.copy_(weights[name])
-
-            results = results.append(
-                {'model': model_name, 'method': 'stochastic', 'precision': p, 'model_artifact': model},
-                ignore_index=True
-            )
-
-    return results
 
 '''
 Given a "weights" tensor and a "tensor of unique values", 
@@ -171,6 +152,7 @@ def stochastic_quant(weights, unique_values):
 
   return weights1
 
+
 '''
 Given a "weights" tensor and a "tensor of unique values", 
 This function will quantize all scalar values of "weights" 
@@ -206,4 +188,111 @@ def rounding_quant(weights, unique_values):
   weights1 = weights1.to(weights.device)
 
   return weights1
+
+
+'''
+Primary Quantization Function which needs to be called by the user
+'''
+def quantization (model_name, method ='all'):
+  device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+  model_object = 'model_artifacts/' + model_name
+  results = pd.DataFrame(columns=['model', 'quant_method', 'bin_method', 'precision', 'model_artifact',
+                                'train_loss', 'train_acc', 'test_loss', 'test_acc'])
+
+  precision = [16,12,10,8,6,4]
+  unique_val_method=['uniform_range','uniform_range_IQR', 'prior_normal','histogram']
+
+  #Stochastic Rounding
+  if method == 'stochastic_rounding' or method == 'all':
+    for i in unique_val_method:
+      for p in precision:
+        model = torch.load(model_object, map_location=torch.device(device))
+        weights=dict()
+        for name, params in model.named_parameters():
+          weights[name] = params.clone()
+        unique_values=unique_value_generator(weights,p,approach=i) #Generates unique values per layer. Returns unique values of all layers
+        for w in weights:
+          weights[w]=stochastic_quant(weights[w], unique_values[w])
+        for name, params in model.named_parameters():
+          params.data.copy_(weights[name])
+
+        results = results.append({'model': model_name, 'quant_method': 'stochastic_rounding','bin_method':i, 'precision': p, 'model_artifact': model},
+                                  ignore_index=True)
+        print('Results appended for Stochastic Rounding :', i, '\t',p)
+
+
+  #Normal Rounding
+  if method == 'normal_rounding' or method == 'all':
+    for i in unique_val_method:
+      for p in precision:
+        model = torch.load(model_object, map_location=torch.device(device))
+        weights=dict()
+        for name, params in model.named_parameters():
+          weights[name] = params.clone()
+        unique_values=unique_value_generator(weights,p,approach=i) #Generates unique values per layer. Returns unique values of all layers
+        for w in weights:
+          weights[w]=rounding_quant(weights[w], unique_values[w])
+        for name, params in model.named_parameters():
+          params.data.copy_(weights[name])
+
+        results = results.append({'model': model_name, 'quant_method': 'normal_rounding','bin_method':i, 'precision': p, 'model_artifact': model},
+                                  ignore_index=True)
+        print('Results appended for Normal Rounding:', i, '\t',p)
+        
+
+  # mid-rise quantization
+  if method == 'mid-rise' or method == 'all':
+    for p in precision:
+        weights = dict()
+        model = torch.load(model_object, map_location=torch.device(device))
+
+        for name, params in model.named_parameters():
+            weights[name] = params.clone()
+        for w in weights:
+            if len(weights[w]) == 1:
+                delta = weights[w] / 2**p
+            else:
+                delta = (torch.max(weights[w]) - torch.min(weights[w])) / 2**p
+            weights[w] = delta * (torch.floor(weights[w]/delta) + 0.5)
+        for name, params in model.named_parameters():
+            params.data.copy_(weights[name])
+
+        results = results.append(
+            {'model': model_name, 'quant_method': 'mid-rise', 'precision': p, 'model_artifact': model},
+            ignore_index=True
+        )
+        print('Results appended for Mid-Rise :' ,p)
+
+  # mid-rise quantization + IQR
+  if method == 'mid-rise_iqr' or method == 'all':
+    for p in precision:
+        weights = dict()
+        model = torch.load(model_object, map_location=torch.device(device))
+
+        for name, params in model.named_parameters():
+            weights[name] = params.clone()
+        for w in weights:
+            if len(weights[w]) == 1:
+                delta = weights[w] / 2**p
+            else:
+                weights_w=np.sort(weights[w].detach().numpy())
+                Q1 = np.percentile(weights_w, 25, interpolation = 'midpoint')  
+                Q2 = np.percentile(weights_w, 50, interpolation = 'midpoint')  
+                Q3 = np.percentile(weights_w, 75, interpolation = 'midpoint')  
+                IQR=Q3-Q1
+                low_lim = Q1 - 1.5 * IQR 
+                up_lim = Q3 + 1.5 * IQR 
+                delta = (torch.tensor(up_lim) - torch.tensor(low_lim)) / 2**p
+            weights[w] = delta * (torch.floor(weights[w]/delta) + 0.5)
+        for name, params in model.named_parameters():
+            params.data.copy_(weights[name])
+
+        results = results.append(
+            {'model': model_name, 'quant_method': 'mid-rise_iqr', 'precision': p, 'model_artifact': model},
+            ignore_index=True
+        )
+        print('Results appended for Mid-Rise + IQR :' ,p)
+      
+  return results
+
 
