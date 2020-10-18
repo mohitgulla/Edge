@@ -203,7 +203,8 @@ def main(train_model=True):
     results_simple = quantization_eval_results(model_simple_name,train_set=train_set,test_set=test_set,batch_size=batch_size,criterion=criterion)
     results_complex = quantization_eval_results(model_complex_name,train_set=train_set,test_set=test_set,batch_size=batch_size,criterion=criterion)
 
-    results_simple.to_csv(path_result + "Telescope_simple.csv")
-    results_complex.to_csv(path_result + "Telescope_complex.csv")
+    time_stamp = str(datetime.now())
+    results_simple.to_csv(path_result + "telescope_simple_" +time_stamp+ ".csv")
+    results_complex.to_csv(path_result + "telescope_complex_new_"+time_stamp+".csv")
 if __name__ == "__main__":
   main(train_model=False)
