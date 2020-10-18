@@ -1,0 +1,421 @@
+,model,quant_method,bin_method,precision,model_artifact,train_loss,train_acc,test_loss,test_acc
+0,mv_simple.pt,stochastic_rounding,uniform_range,16,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.014610318467020988,,0.012782980687916279,
+1,mv_simple.pt,stochastic_rounding,uniform_range,12,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.01463393121957779,,0.012812130153179169,
+2,mv_simple.pt,stochastic_rounding,uniform_range,10,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.01733848825097084,,0.015565198846161366,
+3,mv_simple.pt,stochastic_rounding,uniform_range,8,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.03403038531541824,,0.03222443535923958,
+4,mv_simple.pt,stochastic_rounding,uniform_range,6,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.5401853322982788,,0.5300581455230713,
+5,mv_simple.pt,stochastic_rounding,uniform_range,4,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",1.0999232530593872,,1.0643463134765625,
+6,mv_simple.pt,stochastic_rounding,uniform_range_IQR,16,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",50.01613235473633,,49.63525390625,
+7,mv_simple.pt,stochastic_rounding,uniform_range_IQR,12,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",49.98423385620117,,49.61004638671875,
+8,mv_simple.pt,stochastic_rounding,uniform_range_IQR,10,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",50.2635498046875,,49.91112518310547,
+9,mv_simple.pt,stochastic_rounding,uniform_range_IQR,8,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",50.05131912231445,,49.681331634521484,
+10,mv_simple.pt,stochastic_rounding,uniform_range_IQR,6,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",53.357845306396484,,52.90558624267578,
+11,mv_simple.pt,stochastic_rounding,uniform_range_IQR,4,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",48.592952728271484,,48.44488525390625,
+12,mv_simple.pt,stochastic_rounding,prior_normal,16,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.014476535841822624,,0.012647610157728195,
+13,mv_simple.pt,stochastic_rounding,prior_normal,12,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.07735556364059448,,0.07647071033716202,
+14,mv_simple.pt,stochastic_rounding,prior_normal,10,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",2.4136838912963867,,2.4428153038024902,
+15,mv_simple.pt,stochastic_rounding,prior_normal,8,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",9.040118217468262,,9.160926818847656,
+16,mv_simple.pt,stochastic_rounding,prior_normal,6,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",14.112056732177734,,14.198497772216797,
+17,mv_simple.pt,stochastic_rounding,prior_normal,4,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",69.05592346191406,,69.12422180175781,
+18,mv_simple.pt,stochastic_rounding,histogram,16,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.014616311527788639,,0.012790177948772907,
+19,mv_simple.pt,stochastic_rounding,histogram,12,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.014386897906661034,,0.012568450532853603,
+20,mv_simple.pt,stochastic_rounding,histogram,10,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.015826158225536346,,0.013993555679917336,
+21,mv_simple.pt,stochastic_rounding,histogram,8,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.06588353216648102,,0.06298357248306274,
+22,mv_simple.pt,stochastic_rounding,histogram,6,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.21226559579372406,,0.2110513299703598,
+23,mv_simple.pt,stochastic_rounding,histogram,4,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",4.848867416381836,,4.944614410400391,
+24,mv_simple.pt,normal_rounding,uniform_range,16,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.01460745558142662,,0.012780624441802502,
+25,mv_simple.pt,normal_rounding,uniform_range,12,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.01471043098717928,,0.012887345626950264,
+26,mv_simple.pt,normal_rounding,uniform_range,10,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.014806296676397324,,0.013002420775592327,
+27,mv_simple.pt,normal_rounding,uniform_range,8,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.042171500623226166,,0.040533922612667084,
+28,mv_simple.pt,normal_rounding,uniform_range,6,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",1.2994929552078247,,1.3065322637557983,
+29,mv_simple.pt,normal_rounding,uniform_range,4,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",16.631641387939453,,16.276973724365234,
+30,mv_simple.pt,normal_rounding,uniform_range_IQR,16,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",50.01217269897461,,49.65876007080078,
+31,mv_simple.pt,normal_rounding,uniform_range_IQR,12,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",49.98319625854492,,49.60869598388672,
+32,mv_simple.pt,normal_rounding,uniform_range_IQR,10,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",50.03732681274414,,49.64681625366211,
+33,mv_simple.pt,normal_rounding,uniform_range_IQR,8,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",50.19474411010742,,49.804046630859375,
+34,mv_simple.pt,normal_rounding,uniform_range_IQR,6,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",48.15433120727539,,47.86549377441406,
+35,mv_simple.pt,normal_rounding,uniform_range_IQR,4,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",52.15742111206055,,51.618568420410156,
+36,mv_simple.pt,normal_rounding,prior_normal,16,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.014680569991469383,,0.01285316701978445,
+37,mv_simple.pt,normal_rounding,prior_normal,12,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.10558795928955078,,0.10510820150375366,
+38,mv_simple.pt,normal_rounding,prior_normal,10,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",1.6671305894851685,,1.6887156963348389,
+39,mv_simple.pt,normal_rounding,prior_normal,8,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",7.119133472442627,,7.188723564147949,
+40,mv_simple.pt,normal_rounding,prior_normal,6,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",12.283437728881836,,12.37997817993164,
+41,mv_simple.pt,normal_rounding,prior_normal,4,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",18.334218978881836,,18.369632720947266,
+42,mv_simple.pt,normal_rounding,histogram,16,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.014610480517148972,,0.012784074060618877,
+43,mv_simple.pt,normal_rounding,histogram,12,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.014691174030303955,,0.012867948971688747,
+44,mv_simple.pt,normal_rounding,histogram,10,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.018842803314328194,,0.017064128071069717,
+45,mv_simple.pt,normal_rounding,histogram,8,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.0187374334782362,,0.017041807994246483,
+46,mv_simple.pt,normal_rounding,histogram,6,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",1.9881210327148438,,1.985238790512085,
+47,mv_simple.pt,normal_rounding,histogram,4,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",38.39518737792969,,37.713035583496094,
+48,mv_simple.pt,mid-rise,,16,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.014609222300350666,,0.01278186310082674,
+49,mv_simple.pt,mid-rise,,12,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.014740737155079842,,0.012926674447953701,
+50,mv_simple.pt,mid-rise,,10,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.015017727389931679,,0.013169337064027786,
+51,mv_simple.pt,mid-rise,,8,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.01619567908346653,,0.014281261712312698,
+52,mv_simple.pt,mid-rise,,6,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.07747606188058853,,0.07838068157434464,
+53,mv_simple.pt,mid-rise,,4,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",3.89805006980896,,3.9823708534240723,
+54,mv_simple.pt,mid-rise_iqr,,16,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.014601887203752995,,0.012776057235896587,
+55,mv_simple.pt,mid-rise_iqr,,12,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.014639141038060188,,0.012812649831175804,
+56,mv_simple.pt,mid-rise_iqr,,10,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.014376775361597538,,0.012550979852676392,
+57,mv_simple.pt,mid-rise_iqr,,8,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.015121758915483952,,0.01328194048255682,
+58,mv_simple.pt,mid-rise_iqr,,6,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",0.022435104474425316,,0.02023121528327465,
+59,mv_simple.pt,mid-rise_iqr,,4,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=1, bias=True)
+  )
+)",2.2418394088745117,,2.2489988803863525,
