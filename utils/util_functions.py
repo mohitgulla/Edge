@@ -126,24 +126,49 @@ Input:
 def stochastic_quant(weights, unique_values):
   # inner helper function
   def stochastic_helper(w):
-    i = 0
+
+    # i = 0
+    # n = len(unique_values)
+
+    # while(i<n and unique_values[i]<w):
+    #   i+=1
+
+    # # base case
+    # if i==0: return unique_values[0]
+    # elif i==n: return unique_values[n-1]
+
     n = len(unique_values)
-    while(i<n and unique_values[i]<w):
-      i+=1
+    unique_values_numpy = unique_values.numpy()
 
     # base case
-    if i==0: return unique_values[0]
-    elif i==n: return unique_values[n-1]
+    if w<=np.min(unique_values_numpy): return unique_values[0]
+    elif w>=np.max(unique_values_numpy): return unique_values[n-1]
 
     # general case
-    lower, upper = unique_values[i-1], unique_values[i]
+    mask = unique_values_numpy >= w
+    unique_values_copy_upper = unique_values_numpy[mask]
+    mask = unique_values_numpy <= w
+    unique_values_copy_lower = unique_values_numpy[mask]
+
+    # lower, upper = unique_values[i-1], unique_values[i]
+
+    lower = np.max(unique_values_copy_lower)
+    upper = np.min(unique_values_copy_upper)
+    if(lower == upper):
+       return lower
+
     lower_p = (upper - w)/(upper - lower)
+
+    # print(lower_p.item())
+    # print(lower.item())
+    # print(upper.item())
     lower_pick = np.random.binomial(n=1, p=lower_p.item())
 
     return lower_pick*lower + (1-lower_pick)*upper
 
   # soring unique values
-  unique_values = torch.sort(unique_values.flatten()).values.cpu()
+  # unique_values = torch.sort(unique_values.flatten()).values.cpu()
+  unique_values = unique_values.clone().detach().cpu()
   # apply_ only works on cpu tensor, so making a copy on cpu
   weights1 = weights.clone().detach().cpu()
   # apply stochastic quantization to all values in weights
@@ -164,23 +189,38 @@ Input:
 def rounding_quant(weights, unique_values):
   # inner helper function
   def rounding_helper(w):
-    i = 0
+    # i = 0
+    # n = len(unique_values)
+    # while(i<n and unique_values[i]<w):
+    #   i+=1
+    #
+    # # base case
+    # if i==0: return unique_values[0]
+    # elif i==n: return unique_values[n-1]
+
     n = len(unique_values)
-    while(i<n and unique_values[i]<w):
-      i+=1
+    unique_values_numpy = unique_values.numpy()
+    # # base case
+    if w<=np.min(unique_values_numpy): return unique_values[0]
+    elif w>=np.max(unique_values_numpy): return unique_values[n-1]
 
-    # base case
-    if i==0: return unique_values[0]
-    elif i==n: return unique_values[n-1]
+    mask = unique_values_numpy >= w
+    unique_values_copy_upper = unique_values_numpy[mask]
+    mask = unique_values_numpy <= w
+    unique_values_copy_lower = unique_values_numpy[mask]
 
-    # general case
-    lower, upper = unique_values[i-1], unique_values[i]
+    lower = np.max(unique_values_copy_lower)
+    upper = np.min(unique_values_copy_upper)
+
+    # lower, upper = unique_values[i-1], unique_values[i]
+
     if (w - lower) < (upper - w):
-      return lower
-    return upper
+      return torch.from_numpy(np.array(lower))
+    return torch.from_numpy(np.array(upper))
 
   # soring unique values
-  unique_values = torch.sort(unique_values.flatten()).values.cpu()
+  # unique_values = torch.sort(unique_values.flatten()).values.cpu()
+  unique_values = unique_values.clone().detach().cpu()
   # apply_ only works on cpu tensor, so making a copy on cpu
   weights1 = weights.clone().detach().cpu()
   # apply rounding quantization to all values in weights
@@ -202,7 +242,7 @@ def quantization (model_name, method ='all'):
   precision = [16,12,10,8,6,4]
   unique_val_method=['uniform_range','uniform_range_IQR', 'prior_normal','histogram']
 
-  #Stochastic Rounding
+  # Stochastic Rounding
   if method == 'stochastic_rounding' or method == 'all':
     for i in unique_val_method:
       for p in precision:
@@ -232,6 +272,7 @@ def quantization (model_name, method ='all'):
         unique_values=unique_value_generator(weights,p,approach=i) #Generates unique values per layer. Returns unique values of all layers
         for w in weights:
           weights[w]=rounding_quant(weights[w], unique_values[w])
+
         for name, params in model.named_parameters():
           params.data.copy_(weights[name])
 
