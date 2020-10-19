@@ -1,8 +1,10 @@
+import os
+import glob
 import torch
-import random
 import numpy as np
 import pandas as pd
 
+import matplotlib.pyplot as plt
 import torchvision.transforms as transforms
 import torchvision.datasets as datasets
 from torch.utils.data import Subset
@@ -71,7 +73,8 @@ def unique_value_generator(weights, precision, approach):
 
   unique_values=dict()
   for i in network_name:
-    weight_bias_comb=torch.cat((torch.flatten(weights[i+'.weight']),weights[i+'.bias']),dim=0) #Flattening the weights tensor and concatenating it with bias
+    weight_bias_comb=torch.cat((torch.flatten(weights[i+'.weight']),
+                                weights[i+'.bias']),dim=0) #Flattening the weights tensor and concatenating it with bias
 
     #uniform range based on min and max
     if approach =='uniform_range':
@@ -256,12 +259,16 @@ def quantization (model_name, method ='all'):
         for name, params in model.named_parameters():
           params.data.copy_(weights[name])
 
-        results = results.append({'model': model_name, 'quant_method': 'stochastic_rounding','bin_method':i, 'precision': p, 'model_artifact': model},
+        results = results.append({'model': model_name,
+                                  'quant_method': 'stochastic_rounding',
+                                  'bin_method':i,
+                                  'precision': p,
+                                  'model_artifact': model},
                                   ignore_index=True)
         print('Results appended for Stochastic Rounding :', i, '\t',p)
 
 
-  #Normal Rounding
+  # Normal Rounding
   if method == 'normal_rounding' or method == 'all':
     for i in unique_val_method:
       for p in precision:
@@ -276,13 +283,17 @@ def quantization (model_name, method ='all'):
         for name, params in model.named_parameters():
           params.data.copy_(weights[name])
 
-        results = results.append({'model': model_name, 'quant_method': 'normal_rounding','bin_method':i, 'precision': p, 'model_artifact': model},
+        results = results.append({'model': model_name,
+                                  'quant_method': 'normal_rounding',
+                                  'bin_method':i,
+                                  'precision': p,
+                                  'model_artifact': model},
                                   ignore_index=True)
         print('Results appended for Normal Rounding:', i, '\t',p)
 
 
-  # mid-rise quantization
-  if method == 'mid-rise' or method == 'all':
+  # mid-rise quantization with / without IQR
+  if method == 'mid_rise' or method == 'all':
     for p in precision:
         weights = dict()
         model = torch.load(model_object, map_location=torch.device(device))
@@ -299,13 +310,15 @@ def quantization (model_name, method ='all'):
             params.data.copy_(weights[name])
 
         results = results.append(
-            {'model': model_name, 'quant_method': 'mid-rise', 'precision': p, 'model_artifact': model},
+            {'model': model_name,
+             'quant_method': 'mid_rise',
+             'bin_method': 'full_range',
+             'precision': p,
+             'model_artifact': model},
             ignore_index=True
         )
         print('Results appended for Mid-Rise :' ,p)
 
-  # mid-rise quantization + IQR
-  if method == 'mid-rise_iqr' or method == 'all':
     for p in precision:
         weights = dict()
         model = torch.load(model_object, map_location=torch.device(device))
@@ -329,9 +342,166 @@ def quantization (model_name, method ='all'):
             params.data.copy_(weights[name])
 
         results = results.append(
-            {'model': model_name, 'quant_method': 'mid-rise_iqr', 'precision': p, 'model_artifact': model},
+            {'model': model_name,
+             'quant_method': 'mid_rise',
+             'bin_method': 'range_IQR',
+             'precision': p,
+             'model_artifact': model},
             ignore_index=True
         )
         print('Results appended for Mid-Rise + IQR :' ,p)
 
   return results
+
+'''
+Generate Accuracy vs Precision plots for various Quantization
+Argument: From all .csv files within results directory
+'''
+def plot_accuracy_vs_precision(results_dir_path, plots_dir_path):
+    os.chdir(results_dir_path)
+    filename = [x for x in glob.glob('*.{}'.format('csv'))]
+    merge = pd.concat([pd.read_csv(f) for f in filename])
+    # merge.to_csv('combined_results.csv', index=False)
+    merge = pd.read_csv('combined_results.csv') # will be commented
+    merge = merge.drop(['Unnamed: 0'], axis=1)
+    merge['method'] = merge.quant_method + '_' + merge.bin_method
+    model_name = list(merge.groupby(['model']).groups.keys())
+
+    for m in model_name:
+        model = merge[merge.model == m]
+        model_title = ' '.join(m[:-3].split('_')).title()
+        method = list(model.groupby([model.method]).groups.keys())
+
+        for k in method:
+            obj = model[model.method == k]
+            if obj.train_acc.isna().all():
+                plt.plot(obj.precision, obj.train_loss, label=k, marker='o')
+                plt.title('Model Loss vs. Precision - ' + model_title)
+                plt.ylabel('Loss')
+
+            else:
+                plt.plot(obj.precision, obj.train_acc, label=k, marker='o')
+                plt.title('Model Accuracy vs. Precision - ' + model_title)
+                plt.ylabel('Accuracy')
+
+        plt.xlabel('Precision')
+        plt.legend()
+
+        os.chdir('../../utils/' + plots_dir_path)
+        plt.savefig(str(m[:-3])+'.png', dpi=400)
+        plt.clf()
+
+    return None
+
+'''
+Generate Drop in Accuracy vs. Drop in Precision plots for various Quantization
+Argument: From combined .csv result file
+'''
+def plot_delta_accuracy_vs_delta_precision(combined_results_file, plots_dir_path):
+    merge = pd.read_csv(combined_results_file)
+    merge = merge.drop(['Unnamed: 0'], axis=1)
+
+    # filter for classification models
+    regression = ['california_simple.pt', 'california_complex.pt', 'mv_simple.pt', 'mv_complex.pt']
+    merge = merge[~merge.model.isin(regression)]
+
+    # compute delta of accuracy and precision
+    merge['max_train_acc'] = merge.groupby(['model', 'method'])['train_acc'].transform('max')
+    merge['diff_accuracy'] = merge.apply(lambda x: x.train_acc - x.max_train_acc, axis=1)
+    merge['diff_precision'] = merge.precision.apply(lambda x: x-16)
+    merge.to_csv('yo yo.csv')
+
+    # mid-rise
+    mid_rise = merge[merge.quant_method == 'mid_rise']
+    method = list(mid_rise.groupby(['bin_method']).groups.keys())
+
+    fig, axes = plt.subplots(1, 2, figsize=(14,6))
+    for i in range(len(method)):
+        model_name = list(mid_rise[mid_rise.bin_method == method[i]].groupby(['model']).groups.keys())
+        model_title = [' '.join(name[:-3].split('_')).title() for name in model_name]
+
+        mid_rise_method = mid_rise[mid_rise.bin_method == method[i]]
+        for j in range(len(model_name)):
+            axes[i].plot(mid_rise_method[mid_rise_method.model == model_name[j]].diff_precision,
+                         mid_rise_method[mid_rise_method.model == model_name[j]].diff_accuracy,
+                         label = model_title[j])
+        axes[i].set_title('Drop in Accuracy vs. Precision for Mid-Rise ' + method[i])
+        axes[i].set_xlabel('Change in Precision (wrt 16)')
+        axes[i].set_ylabel('Accuracy Drop')
+
+    axes[0].legend()
+    os.chdir('../utils/' + plots_dir_path)
+    plt.savefig('mid_rise_delta.png', dpi=400)
+    plt.clf()
+
+    # rounding
+    rounding = merge[merge.quant_method == 'normal_rounding']
+    method = list(rounding.groupby(['bin_method']).groups.keys())
+
+    fig, axes = plt.subplots(2, 2, figsize=(14, 12))
+    for i in range(len(method)):
+        model_name = list(rounding[rounding.bin_method == method[i]].groupby(['model']).groups.keys())
+        model_title = [' '.join(name[:-3].split('_')).title() for name in model_name]
+
+        rounding_method = rounding[rounding.bin_method == method[i]]
+        if i == 0:
+            x = y = 0
+        if i == 1:
+            x = 0
+            y = 1
+        if i == 2:
+            x = 1
+            y = 0
+        if i == 3:
+            x = y = 1
+
+        for j in range(len(model_name)):
+            axes[x, y].plot(rounding_method[rounding_method.model == model_name[j]].diff_precision,
+                         rounding_method[rounding_method.model == model_name[j]].diff_accuracy,
+                         label=model_title[j])
+        axes[x, y].set_title('Drop in Accuracy vs. Precision for Normal Rounding ' + method[i])
+        axes[x, y].set_xlabel('Change in Precision (wrt 16)')
+        axes[x, y].set_ylabel('Accuracy Drop')
+
+    axes[1, 1].legend()
+    plt.savefig('normal_rounding_delta.png', dpi=400)
+    plt.clf()
+
+    # stochastic
+    stochastic = merge[merge.quant_method == 'stochastic_rounding']
+    method = list(stochastic.groupby(['bin_method']).groups.keys())
+
+    fig, axes = plt.subplots(2, 2, figsize=(14, 12))
+    for i in range(len(method)):
+        model_name = list(stochastic[stochastic.bin_method == method[i]].groupby(['model']).groups.keys())
+        model_title = [' '.join(name[:-3].split('_')).title() for name in model_name]
+
+        stochastic_method = stochastic[stochastic.bin_method == method[i]]
+        if i == 0:
+            x = y = 0
+        if i == 1:
+            x = 0
+            y = 1
+        if i == 2:
+            x = 1
+            y = 0
+        if i == 3:
+            x = y = 1
+
+        for j in range(len(model_name)):
+            axes[x, y].plot(stochastic_method[stochastic_method.model == model_name[j]].diff_precision,
+                            stochastic_method[stochastic_method.model == model_name[j]].diff_accuracy,
+                            label=model_title[j])
+        axes[x, y].set_title('Drop in Accuracy vs. Precision for Stochastic Rounding ' + method[i])
+        axes[x, y].set_xlabel('Change in Precision (wrt 16)')
+        axes[x, y].set_ylabel('Accuracy Drop')
+
+    axes[1, 1].legend()
+    plt.savefig('stochastic_rounding_delta.png', dpi=400)
+    plt.clf()
+
+    return None
+
+
+# plot_accuracy_vs_precision('../data/results', '../data/plots')
+# plot_delta_accuracy_vs_delta_precision('../data/results/combined_results.csv', '../data/plots')
