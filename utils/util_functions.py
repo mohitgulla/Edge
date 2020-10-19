@@ -376,12 +376,12 @@ def plot_accuracy_vs_precision(results_dir_path, plots_dir_path):
             obj = model[model.method == k]
             if obj.train_acc.isna().all():
                 plt.plot(obj.precision, obj.train_loss, label=k, marker='o')
-                plt.title('Model Loss vs Precision - ' + model_title)
+                plt.title('Model Loss vs. Precision - ' + model_title)
                 plt.ylabel('Loss')
 
             else:
                 plt.plot(obj.precision, obj.train_acc, label=k, marker='o')
-                plt.title('Model Accuracy vs Precision - ' + model_title)
+                plt.title('Model Accuracy vs. Precision - ' + model_title)
                 plt.ylabel('Accuracy')
 
         plt.xlabel('Precision')
@@ -391,82 +391,117 @@ def plot_accuracy_vs_precision(results_dir_path, plots_dir_path):
         plt.savefig(str(m[:-3])+'.png', dpi=400)
         plt.clf()
 
+    return None
 
+'''
+Generate Drop in Accuracy vs. Drop in Precision plots for various Quantization
+Argument: From combined .csv result file
+'''
+def plot_delta_accuracy_vs_delta_precision(combined_results_file, plots_dir_path):
+    merge = pd.read_csv(combined_results_file)
+    merge = merge.drop(['Unnamed: 0'], axis=1)
 
+    # filter for classification models
+    regression = ['california_simple.pt', 'california_complex.pt', 'mv_simple.pt', 'mv_complex.pt']
+    merge = merge[~merge.model.isin(regression)]
 
-    # combined = combined[combined.precision > 1]
-    # churn = combined[combined.model == 'cifar_resnet50_model.pt']
-    # mid_rise = churn[churn.method == 'mid-rise']
-    # rounding = churn[churn.method == 'rounding']
-    # stochastic = churn[churn.method == 'stochastic']
-    #
-    # # Accuracy
-    # plt.plot(mid_rise.precision, mid_rise.train_acc, c='tab:blue', label='Mid-Rise Train', marker='o')
-    # plt.plot(mid_rise.precision, mid_rise.test_acc, c='tab:blue', ls='--', label='Mid-Rise Test')
-    # plt.plot(rounding.precision, rounding.train_acc, c='tab:orange', label='Rounding Train', marker='o')
-    # plt.plot(rounding.precision, rounding.test_acc, c='tab:orange', ls='--', label='Rounding Test')
-    # plt.plot(stochastic.precision, stochastic.train_acc, c='tab:green', label='Stochastic Train', marker='o')
-    # plt.plot(stochastic.precision, stochastic.test_acc, c='tab:green', ls='--', label='Stochastic Test')
-    # plt.title('Model Accuracy post Quantization - ResNet 50 on CIFAR-100 Data')
-    # plt.ylabel('Accuracy')
-    # plt.xlabel('Precision')
-    # plt.legend()
-    # plt.show()
-    #
-    #
-    # # Loss
-    # plt.plot(mid_rise.precision, mid_rise.train_loss, c='tab:blue', label='Mid-Rise Train', marker='o')
-    # plt.plot(mid_rise.precision, mid_rise.test_loss, c='tab:blue', ls='--', label='Mid-Rise Test')
-    # plt.plot(rounding.precision, rounding.train_loss, c='tab:orange', label='Rounding Train', marker='o')
-    # plt.plot(rounding.precision, rounding.test_loss, c='tab:orange', ls='--', label='Rounding Test')
-    # plt.plot(stochastic.precision, stochastic.train_loss, c='tab:green', label='Stochastic Train', marker='o')
-    # plt.plot(stochastic.precision, stochastic.test_loss, c='tab:green', ls='--', label='Stochastic Test')
-    # plt.title('Model Loss post Quantization - ResNet 50 on CIFAR-100 Data')
-    # plt.ylabel('Loss')
-    # plt.xlabel('Precision')
-    # plt.legend()
-    # plt.show()
+    # compute delta of accuracy and precision
+    merge['max_train_acc'] = merge.groupby(['model', 'method'])['train_acc'].transform('max')
+    merge['diff_accuracy'] = merge.apply(lambda x: x.train_acc - x.max_train_acc, axis=1)
+    merge['diff_precision'] = merge.precision.apply(lambda x: x-16)
+    merge.to_csv('yo yo.csv')
 
-    # print(combined.groupby(['model']).groups.keys())
-    # combined = combined[combined.diff_precision !=0]
-    # combined = combined[combined.method == 'stochastic']
-    # plt.plot(combined[combined.model == 'churn_simple.pt'].diff_precision,
-    #          combined[combined.model == 'churn_simple.pt'].diff_train_acc,
-    #          label = 'Churn Simple')
-    # plt.plot(combined[combined.model == 'churn_complex.pt'].diff_precision,
-    #          combined[combined.model == 'churn_complex.pt'].diff_train_acc,
-    #          label='Churn Complex')
-    # plt.plot(combined[combined.model == 'telescope_simple.pt'].diff_precision,
-    #          combined[combined.model == 'telescope_simple.pt'].diff_train_acc,
-    #          label='Telescope Simple')
-    # plt.plot(combined[combined.model == 'telescope_complex.pt'].diff_precision,
-    #          combined[combined.model == 'telescope_complex.pt'].diff_train_acc,
-    #          label='Telescope Complex')
-    # plt.plot(combined[combined.model == 'fmnist_cnn_model.pt'].diff_precision,
-    #          combined[combined.model == 'fmnist_cnn_model.pt'].diff_train_acc,
-    #          label='FMNIST Vanilla CNN')
-    # plt.plot(combined[combined.model == 'fmnist_resnet9_model.pt'].diff_precision,
-    #          combined[combined.model == 'fmnist_resnet9_model.pt'].diff_train_acc,
-    #          label='FMNIST ResNet 9')
-    # plt.plot(combined[combined.model == 'fmnist_resnet50_model.pt'].diff_precision,
-    #          combined[combined.model == 'fmnist_resnet50_model.pt'].diff_train_acc,
-    #          label='FMNIST ResNet 50')
-    # plt.plot(combined[combined.model == 'cifar_cnn_model.pt'].diff_precision,
-    #          combined[combined.model == 'cifar_cnn_model.pt'].diff_train_acc,
-    #          label='CIFAR-100 Vanilla CNN')
-    # plt.plot(combined[combined.model == 'cifar_resnet9_model.pt'].diff_precision,
-    #          combined[combined.model == 'cifar_resnet9_model.pt'].diff_train_acc,
-    #          label='CIFAR-100 ResNet 9')
-    # plt.plot(combined[combined.model == 'cifar_resnet50_model.pt'].diff_precision,
-    #          combined[combined.model == 'cifar_resnet50_model.pt'].diff_train_acc,
-    #          label='CIFAR-100 ResNet 50')
-    # plt.title('Drop in Accuracy vs. Drop in Decimal Precision for Stochastic Rounding')
-    # plt.xlabel('Delta Decimal Precision')
-    # plt.ylabel('Delta Accuracy')
-    # plt.legend()
-    # plt.show()
-    # print(combined)
+    # mid-rise
+    mid_rise = merge[merge.quant_method == 'mid_rise']
+    method = list(mid_rise.groupby(['bin_method']).groups.keys())
+
+    fig, axes = plt.subplots(1, 2, figsize=(14,6))
+    for i in range(len(method)):
+        model_name = list(mid_rise[mid_rise.bin_method == method[i]].groupby(['model']).groups.keys())
+        model_title = [' '.join(name[:-3].split('_')).title() for name in model_name]
+
+        mid_rise_method = mid_rise[mid_rise.bin_method == method[i]]
+        for j in range(len(model_name)):
+            axes[i].plot(mid_rise_method[mid_rise_method.model == model_name[j]].diff_precision,
+                         mid_rise_method[mid_rise_method.model == model_name[j]].diff_accuracy,
+                         label = model_title[j])
+        axes[i].set_title('Drop in Accuracy vs. Precision for Mid-Rise ' + method[i])
+        axes[i].set_xlabel('Change in Precision (wrt 16)')
+        axes[i].set_ylabel('Accuracy Drop')
+
+    axes[0].legend()
+    os.chdir('../utils/' + plots_dir_path)
+    plt.savefig('mid_rise_delta.png', dpi=400)
+    plt.clf()
+
+    # rounding
+    rounding = merge[merge.quant_method == 'normal_rounding']
+    method = list(rounding.groupby(['bin_method']).groups.keys())
+
+    fig, axes = plt.subplots(2, 2, figsize=(14, 12))
+    for i in range(len(method)):
+        model_name = list(rounding[rounding.bin_method == method[i]].groupby(['model']).groups.keys())
+        model_title = [' '.join(name[:-3].split('_')).title() for name in model_name]
+
+        rounding_method = rounding[rounding.bin_method == method[i]]
+        if i == 0:
+            x = y = 0
+        if i == 1:
+            x = 0
+            y = 1
+        if i == 2:
+            x = 1
+            y = 0
+        if i == 3:
+            x = y = 1
+
+        for j in range(len(model_name)):
+            axes[x, y].plot(rounding_method[rounding_method.model == model_name[j]].diff_precision,
+                         rounding_method[rounding_method.model == model_name[j]].diff_accuracy,
+                         label=model_title[j])
+        axes[x, y].set_title('Drop in Accuracy vs. Precision for Normal Rounding ' + method[i])
+        axes[x, y].set_xlabel('Change in Precision (wrt 16)')
+        axes[x, y].set_ylabel('Accuracy Drop')
+
+    axes[1, 1].legend()
+    plt.savefig('normal_rounding_delta.png', dpi=400)
+    plt.clf()
+
+    # stochastic
+    stochastic = merge[merge.quant_method == 'stochastic_rounding']
+    method = list(stochastic.groupby(['bin_method']).groups.keys())
+
+    fig, axes = plt.subplots(2, 2, figsize=(14, 12))
+    for i in range(len(method)):
+        model_name = list(stochastic[stochastic.bin_method == method[i]].groupby(['model']).groups.keys())
+        model_title = [' '.join(name[:-3].split('_')).title() for name in model_name]
+
+        stochastic_method = stochastic[stochastic.bin_method == method[i]]
+        if i == 0:
+            x = y = 0
+        if i == 1:
+            x = 0
+            y = 1
+        if i == 2:
+            x = 1
+            y = 0
+        if i == 3:
+            x = y = 1
+
+        for j in range(len(model_name)):
+            axes[x, y].plot(stochastic_method[stochastic_method.model == model_name[j]].diff_precision,
+                            stochastic_method[stochastic_method.model == model_name[j]].diff_accuracy,
+                            label=model_title[j])
+        axes[x, y].set_title('Drop in Accuracy vs. Precision for Stochastic Rounding ' + method[i])
+        axes[x, y].set_xlabel('Change in Precision (wrt 16)')
+        axes[x, y].set_ylabel('Accuracy Drop')
+
+    axes[1, 1].legend()
+    plt.savefig('stochastic_rounding_delta.png', dpi=400)
+    plt.clf()
 
     return None
 
+
 # plot_accuracy_vs_precision('../data/results', '../data/plots')
+# plot_delta_accuracy_vs_delta_precision('../data/results/combined_results.csv', '../data/plots')

@@ -1618,7 +1618,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): Flatten()
     (2): Linear(in_features=512, out_features=10, bias=True)
   )
-)",3.60949E+11,0.1,3.62029E+11,0.1,normal_rounding_uniform_range
+)",3.61E+11,0.1,3.62E+11,0.1,normal_rounding_uniform_range
 30,fmnist_resnet9_model.pt,normal_rounding,uniform_range_IQR,16,"CNN_resnet9(
   (conv1): Sequential(
     (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
@@ -12676,7 +12676,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): Flatten()
     (2): Linear(in_features=512, out_features=100, bias=True)
   )
-)",4.766475677,0.01,4.766466618,0.01,stochastic_rounding_uniform_range
+)",4.766475677,0.01,4.766466618,0.01,stochastic_rounding_uniform_range_IQR
 7,cifar_resnet9_model.pt,stochastic_rounding,uniform_range_IQR,12,"CNN_resnet9(
   (conv1): Sequential(
     (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
@@ -13000,7 +13000,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): Flatten()
     (2): Linear(in_features=512, out_features=100, bias=True)
   )
-)",2.038922071,0.5074,3.092600107,0.3976,stochastic_rounding_uniform_range_IQR
+)",2.038922071,0.5074,3.092600107,0.3976,stochastic_rounding_prior_normal
 13,cifar_resnet9_model.pt,stochastic_rounding,prior_normal,12,"CNN_resnet9(
   (conv1): Sequential(
     (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
@@ -13324,7 +13324,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): Flatten()
     (2): Linear(in_features=512, out_features=100, bias=True)
   )
-)",0.39891842,0.89468,1.599489212,0.5978,stochastic_rounding_prior_normal
+)",0.39891842,0.89468,1.599489212,0.5978,stochastic_rounding_histogram
 19,cifar_resnet9_model.pt,stochastic_rounding,histogram,12,"CNN_resnet9(
   (conv1): Sequential(
     (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
@@ -13648,7 +13648,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): Flatten()
     (2): Linear(in_features=512, out_features=100, bias=True)
   )
-)",0.398885936,0.8946,1.599458098,0.5979,stochastic_rounding_histogram
+)",0.398885936,0.8946,1.599458098,0.5979,normal_rounding_uniform_range
 25,cifar_resnet9_model.pt,normal_rounding,uniform_range,12,"CNN_resnet9(
   (conv1): Sequential(
     (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
@@ -13918,7 +13918,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): Flatten()
     (2): Linear(in_features=512, out_features=100, bias=True)
   )
-)",1.19488E+14,0.01,1.19385E+14,0.01,normal_rounding_uniform_range
+)",1.19E+14,0.01,1.19E+14,0.01,normal_rounding_uniform_range
 30,cifar_resnet9_model.pt,normal_rounding,uniform_range_IQR,16,"CNN_resnet9(
   (conv1): Sequential(
     (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
@@ -13972,7 +13972,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): Flatten()
     (2): Linear(in_features=512, out_features=100, bias=True)
   )
-)",4.766476631,0.01,4.766466141,0.01,normal_rounding_uniform_range
+)",4.766476631,0.01,4.766466141,0.01,normal_rounding_uniform_range_IQR
 31,cifar_resnet9_model.pt,normal_rounding,uniform_range_IQR,12,"CNN_resnet9(
   (conv1): Sequential(
     (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
@@ -14296,7 +14296,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): Flatten()
     (2): Linear(in_features=512, out_features=100, bias=True)
   )
-)",1.887724042,0.48386,2.608720064,0.3664,normal_rounding_uniform_range_IQR
+)",1.887724042,0.48386,2.608720064,0.3664,normal_rounding_prior_normal
 37,cifar_resnet9_model.pt,normal_rounding,prior_normal,12,"CNN_resnet9(
   (conv1): Sequential(
     (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
@@ -14620,7 +14620,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): Flatten()
     (2): Linear(in_features=512, out_features=100, bias=True)
   )
-)",0.398886949,0.89462,1.599480033,0.5979,normal_rounding_prior_normal
+)",0.398886949,0.89462,1.599480033,0.5979,normal_rounding_histogram
 43,cifar_resnet9_model.pt,normal_rounding,histogram,12,"CNN_resnet9(
   (conv1): Sequential(
     (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
@@ -14944,7 +14944,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): Flatten()
     (2): Linear(in_features=512, out_features=100, bias=True)
   )
-)",0.398879677,0.8945,1.599263191,0.598,normal_rounding_histogram
+)",0.398879677,0.8945,1.599263191,0.598,mid_rise_full_range
 49,cifar_resnet9_model.pt,mid_rise,full_range,12,"CNN_resnet9(
   (conv1): Sequential(
     (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
@@ -15268,7 +15268,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): Flatten()
     (2): Linear(in_features=512, out_features=100, bias=True)
   )
-)",,0.01,,0.01,mid_rise_full_range
+)",,0.01,,0.01,mid_rise_IQR_range
 55,cifar_resnet9_model.pt,mid_rise,IQR_range,12,"CNN_resnet9(
   (conv1): Sequential(
     (0): Conv2d(3, 64, kernel_size=(3, 3), stride=(1, 1), padding=(1, 1))
@@ -15545,7 +15545,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): ReLU()
     (2): Linear(in_features=10, out_features=1, bias=True)
   )
-)",6218.883301,,6215.522949,,mid_rise_IQR_range
+)",6218.883301,,6215.522949,,stochastic_rounding_uniform_range
 1,california_simple.pt,stochastic_rounding,uniform_range,12,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=6, out_features=10, bias=True)
@@ -15587,7 +15587,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): ReLU()
     (2): Linear(in_features=10, out_features=1, bias=True)
   )
-)",6702.625,,6645.28418,,stochastic_rounding_uniform_range
+)",6702.625,,6645.28418,,stochastic_rounding_uniform_range_IQR
 7,california_simple.pt,stochastic_rounding,uniform_range_IQR,12,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=6, out_features=10, bias=True)
@@ -15629,7 +15629,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): ReLU()
     (2): Linear(in_features=10, out_features=1, bias=True)
   )
-)",6221.101074,,6269.304199,,stochastic_rounding_uniform_range_IQR
+)",6221.101074,,6269.304199,,stochastic_rounding_prior_normal
 13,california_simple.pt,stochastic_rounding,prior_normal,12,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=6, out_features=10, bias=True)
@@ -15671,7 +15671,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): ReLU()
     (2): Linear(in_features=10, out_features=1, bias=True)
   )
-)",6222.677734,,6183.446777,,stochastic_rounding_prior_normal
+)",6222.677734,,6183.446777,,stochastic_rounding_histogram
 19,california_simple.pt,stochastic_rounding,histogram,12,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=6, out_features=10, bias=True)
@@ -15713,7 +15713,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): ReLU()
     (2): Linear(in_features=10, out_features=1, bias=True)
   )
-)",6224.186035,,6183.616699,,stochastic_rounding_histogram
+)",6224.186035,,6183.616699,,normal_rounding_uniform_range
 25,california_simple.pt,normal_rounding,uniform_range,12,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=6, out_features=10, bias=True)
@@ -15755,7 +15755,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): ReLU()
     (2): Linear(in_features=10, out_features=1, bias=True)
   )
-)",6708.416016,,6664.820801,,normal_rounding_uniform_range
+)",6708.416016,,6664.820801,,normal_rounding_uniform_range_IQR
 31,california_simple.pt,normal_rounding,uniform_range_IQR,12,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=6, out_features=10, bias=True)
@@ -15797,7 +15797,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): ReLU()
     (2): Linear(in_features=10, out_features=1, bias=True)
   )
-)",6224.116211,,6172.657715,,normal_rounding_uniform_range_IQR
+)",6224.116211,,6172.657715,,normal_rounding_prior_normal
 37,california_simple.pt,normal_rounding,prior_normal,12,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=6, out_features=10, bias=True)
@@ -15839,7 +15839,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): ReLU()
     (2): Linear(in_features=10, out_features=1, bias=True)
   )
-)",6222.665527,,6183.449707,,normal_rounding_prior_normal
+)",6222.665527,,6183.449707,,normal_rounding_histogram
 43,california_simple.pt,normal_rounding,histogram,12,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=6, out_features=10, bias=True)
@@ -15881,7 +15881,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): ReLU()
     (2): Linear(in_features=10, out_features=1, bias=True)
   )
-)",6219.01416,,6182.249512,,normal_rounding_histogram
+)",6219.01416,,6182.249512,,mid_rise_full_range
 49,california_simple.pt,mid_rise,full_range,12,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=6, out_features=10, bias=True)
@@ -15923,7 +15923,7 @@ Unnamed: 0,model,quant_method,bin_method,precision,model_artifact,train_loss,tra
     (1): ReLU()
     (2): Linear(in_features=10, out_features=1, bias=True)
   )
-)",6220.686523,,6175.414551,,mid_rise_full_range
+)",6220.686523,,6175.414551,,mid_rise_IQR_range
 55,california_simple.pt,mid_rise,IQR_range,12,"DenseNeuralNet(
   (net): Sequential(
     (0): Linear(in_features=6, out_features=10, bias=True)
