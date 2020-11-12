@@ -1,9 +1,9 @@
 __pycache__/
 *.py[cod]
 *$py.class
-data/__pycache__/
-model/__pycache__/
-utils/__pycache__/
+data/__pycache__/*
+model/__pycache__/*
+utils/__pycache__/*
 log/*
 model_artifacts/cifar_resnet50_model.pt
 model_artifacts/cifar_vgg16_model.pt
