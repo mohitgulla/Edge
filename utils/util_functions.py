@@ -12,30 +12,51 @@ from sklearn.model_selection import train_test_split
 from scipy.stats import norm
 
 
-def get_cifar_dataset(train = True):
+def get_cifar100_dataset(train = True):
   transform_train = transforms.Compose([
     transforms.RandomCrop(32, padding=4),
     transforms.RandomHorizontalFlip(),
+    transforms.RandomRotation(15),
     transforms.ToTensor(),
-    transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
-])
+    transforms.Normalize(mean=(0.5071, 0.4865, 0.4409), std=(0.2673, 0.2564, 0.2762)),
+  ])
 
   transform_test = transforms.Compose([
       transforms.ToTensor(),
-      transforms.Normalize((0.4914, 0.4822, 0.4465), (0.2023, 0.1994, 0.2010)),
+      transforms.Normalize(mean=(0.5071, 0.4865, 0.4409), std=(0.2673, 0.2564, 0.2762)),
   ])
 
-  transform = transforms.Compose(
-    [transforms.ToTensor(),
-     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+  if train == True:
+      dataset = datasets.CIFAR100(root = './data', train = train, transform=transform_test, target_transform=None, download=True)
+  else:
+      dataset = datasets.CIFAR100(root = './data', train = train, transform=transform_test, target_transform=None, download=True)
+  
+  return dataset
 
+
+def get_fmnist_dataset(train = True):
+  transform_train = transforms.Compose([
+    transforms.RandomCrop(32, padding=4),
+    transforms.RandomHorizontalFlip(),
+    transforms.RandomRotation(15),
+    transforms.ToTensor(),
+    transforms.Normalize(mean=(0.5, 0.5, 0.5), std=(0.5, 0.5, 0.5)),
+  ])
+
+  transform_test = transforms.Compose([
+    transforms.Resize(32),
+    transforms.ToTensor(),
+    transforms.Lambda(lambda x: x.repeat(3, 1, 1)),
+    transforms.Normalize(mean=(0.5), std=(0.5))
+  ])
 
   if train == True:
-      dataset = datasets.CIFAR10(root = './data', train = train, transform=transform, target_transform=None, download=True)
+      dataset = datasets.FashionMNIST(root = './data', train = train, transform=transform_test, target_transform=None, download=True)
   else:
-      dataset = datasets.CIFAR10(root = './data', train = train, transform=transform, target_transform=None, download=True)
-
+      dataset = datasets.FashionMNIST(root = './data', train = train, transform=transform_test, target_transform=None, download=True)
+  
   return dataset
+
 
 def split_data(dataset, val_split=0.25):
     train_idx, val_idx = train_test_split(list(range(len(dataset))), test_size=val_split)
