@@ -144,7 +144,7 @@ def multipoint_algorithm(r_pre, qset, b=8, neta=1/(2**10)):
 
 
 # function to layer-wise multi-point quantization (except 1st and last)
-def multipoint_layer_quantization(weights, input, precision, iter=1):
+def multipoint_layer_quantization(weights, input, precision, iter=10):
     y = nn.functional.conv2d(input, weights)
     k_naive = torch.max(torch.flatten(weights))
     qset_naive = quantization_set(weights, precision, K=k_naive)
@@ -197,7 +197,7 @@ def multipoint_quantization(model_name, model_fn, data_fn, precision):
                 continue
             layer = '.'.join(w.split('.')[:-1])
             if layer in activations.keys():
-                weights[w] = multipoint_layer_quantization(weights[w], activations[layer][0], p, iter=1)
+                weights[w] = multipoint_layer_quantization(weights[w], activations[layer][0], p, iter=10)
             flag += 1
         for name, params in model.named_parameters():
             params.data.copy_(weights[name])
