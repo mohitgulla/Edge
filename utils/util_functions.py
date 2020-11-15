@@ -419,15 +419,15 @@ def pruning_multiple(model_name, prune_percentage=[]):
         prune_percentage = [.0, .25, .50, .60, .70, .80, .90, .95, .97, .99]
     model = torch.load(model_object, map_location=torch.device(device))
     weights = model.state_dict()
-    print(weights)
+    # print(weights)
     for p in prune_percentage:
         pruned_model = prune_model(model_artifact=model, prune_percentage=p)
-        print("------------------------------------------------------------")
-        print("Prune Percentage:", p)
-        print("------------------------------------------------------------")
-        pruned_weights = pruned_model.state_dict()
-        print(pruned_weights)
-        print("------------------------------------------------------------")
+        # print("------------------------------------------------------------")
+        # print("Prune Percentage:", p)
+        # print("------------------------------------------------------------")
+        # pruned_weights = pruned_model.state_dict()
+        # print(pruned_weights)
+        # print("------------------------------------------------------------")
 
         results = results.append({'model': model_name,
                                   'pruning_percentage': p,
