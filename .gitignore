@@ -1,6 +1,14 @@
 __pycache__/
 *.py[cod]
 *$py.class
-data/__pycache__/
-model/__pycache__/
-utils/__pycache__/
+data/__pycache__/*
+model/__pycache__/*
+utils/__pycache__/*
+log/*
+model_artifacts/cifar_resnet50_model.pt
+model_artifacts/cifar_vgg16_model.pt
+model_artifacts/fmnist_resnet50_model.pt
+model_artifacts/fmnist_vgg16_model.pt
+data/FashionMNIST/
+data/cifar-100-python.tar.gz
+data/cifar-100-python/
