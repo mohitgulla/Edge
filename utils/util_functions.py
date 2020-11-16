@@ -10,6 +10,7 @@ import torchvision.datasets as datasets
 from torch.utils.data import Subset
 from sklearn.model_selection import train_test_split
 from scipy.stats import norm
+from collections import defaultdict
 
 
 def get_cifar_dataset(train = True):
@@ -353,6 +354,212 @@ def quantization (model_name, method ='all'):
 
   return results
 
+
+################################################################################################
+################################################################################################
+  
+
+'''
+Quantization Aware Training 
+'''
+
+'''
+Given all weights for a model, the precision and approach,
+the function calculates a tensor of unique values per layer (weight+bias)
+Returns unique values for the entire model.
+'''
+
+
+def qat_unique_value_generator(weights, precision, bin_method):
+  #Parse layers names
+  network_name=list(set([x.rsplit('.',1)[0] for x in list(weights.keys())]))
+
+  unique_values = dict()
+
+  for i in network_name:
+    #uniform range based on min and max
+    if bin_method =='uniform_range':
+      min_val=torch.min(weights[i+'.weight']).item()
+      max_val=torch.max(weights[i+'.weight']).item()
+      unique_intm = torch.linspace(start = min_val, end = max_val, steps = 2**precision)
+      unique_values[i+'.weight'] = unique_intm
+
+    #Histogram based bins. Midpoint of bin edges is used as unique values
+    if bin_method == 'histogram':
+      bin_edges=np.histogram_bin_edges(weights[i+'.weight'].detach().cpu().numpy(), bins=2**precision)
+      bin_edges=list(map(lambda i, j : (i + j)/2, bin_edges[: -1], bin_edges[1: ]))
+      unique_intm = torch.tensor(np.array(bin_edges))
+      unique_values[i+'.weight'] = unique_intm
+
+    #Range based on quantiles of a normal distribution
+    if bin_method == 'prior_normal':
+      mean_val=torch.mean(weights[i+'.weight']).item()
+      std_val=torch.std(weights[i+'.weight']).item()
+      quantiles=np.linspace(0, 1, num=2**precision) #Quantile
+      quantiles=quantiles[:-1][1:] #Removing 1st and last element
+      unique_intm = list(map(lambda x : norm.ppf(x,loc=mean_val,scale=std_val), quantiles))
+      unique_intm.append(torch.min(weights[i+'.weight']).item())
+      unique_intm.append(torch.max(weights[i+'.weight']).item())
+      unique_intm=torch.tensor(np.array(unique_intm))
+      unique_values[i+'.weight'] = unique_intm
+
+  return unique_values
+
+
+'''
+Primary QAT Function which needs to be called by the user
+-weights_fp is the input floating point weights of the model. Hence layer names would be present
+-Precision value is an int. 
+-quant_method is a string. It can be either of the following : 'stochastic_rounding', 'normal_rounding', 'mid-rise'
+-No bin_method is required for quant_method='mid_rise'
+-bin_method is a string. It can be either of the following : 'uniform_range', 'histogram', 'prior_normal'
+-combinations=[['stochastic_rounding', 'uniform_range'], 
+              ['stochastic_rounding', 'prior_normal'],
+              ['stochastic_rounding', 'histogram'],
+              ['normal_rounding', 'uniform_range'], 
+              ['normal_rounding', 'prior_normal'],
+              ['normal_rounding', 'histogram'],
+              ['mid_rise', None]]
+
+Primary Quantization Function which needs to be called by the user
+'''
+
+def qat_quantization (weights_fp, precision, quant_method, bin_method=None):
+
+  # Stochastic Rounding
+  if (quant_method == 'stochastic_rounding') and (bin_method != None):
+    weights_q=dict()
+    w_fp_min_max = defaultdict(dict) 
+    w_q_min_max = defaultdict(dict)
+
+    unique_values = qat_unique_value_generator(weights_fp,precision,bin_method) #Generates unique values per layer. Returns unique values of all layers
+    
+    for w in weights_fp:
+      if w.rsplit('.',1)[1] == 'weight':
+        w_fp_min_max[w]['min'] = torch.min(weights_fp[w]).item()
+        w_fp_min_max[w]['max'] = torch.max(weights_fp[w]).item()
+        weights_q[w] = stochastic_quant(weights_fp[w], unique_values[w])
+        w_q_min_max[w]['min'] = torch.min(weights_q[w]).item()
+        w_q_min_max[w]['max'] = torch.max(weights_q[w]).item()
+
+      else:
+        weights_q[w] = weights_fp[w] #Bias remains unquantized
+
+
+  # Normal Rounding
+  if (quant_method == 'normal_rounding') and (bin_method != None):
+    weights_q=dict()
+    w_fp_min_max = defaultdict(dict) 
+    w_q_min_max = defaultdict(dict)
+
+    unique_values = qat_unique_value_generator(weights_fp,precision,bin_method) #Generates unique values per layer. Returns unique values of all layers
+    
+    for w in weights_fp:
+      if w.rsplit('.',1)[1] == 'weight':
+        w_fp_min_max[w]['min'] = torch.min(weights_fp[w]).item()
+        w_fp_min_max[w]['max'] = torch.max(weights_fp[w]).item()
+        weights_q[w]=rounding_quant(weights_fp[w], unique_values[w])
+        w_q_min_max[w]['min'] = torch.min(weights_q[w]).item()
+        w_q_min_max[w]['max'] = torch.max(weights_q[w]).item()
+       
+      else:
+        weights_q[w] = weights_fp[w] #Bias remains unquantized
+
+
+  # mid-rise quantization 
+  if (quant_method == 'mid_rise') and (bin_method == None):
+    weights_q = dict()
+    w_fp_min_max = defaultdict(dict) # Min and Max values of floating point. Weight and Bias is considered as a single layer for this calculation
+    w_q_min_max = defaultdict(dict)  # Min and Max values of quantization
+
+    for w in weights_fp:
+      if w.rsplit('.',1)[1] == 'weight':
+        w_fp_min_max[w]['min'] = torch.min(weights_fp[w]).item()
+        w_fp_min_max[w]['max'] = torch.max(weights_fp[w]).item()
+
+        if len(weights_fp[w]) == 1:
+            delta = weights_fp[w] / 2**precision
+        else:
+            delta = (torch.max(weights_fp[w]) - torch.min(weights_fp[w])) / 2**precision
+
+        weights_q[w] = delta * (torch.floor(weights_fp[w]/delta) + 0.5)
+        w_q_min_max[w]['min'] = torch.min(weights_q[w]).item()
+        w_q_min_max[w]['max'] = torch.max(weights_q[w]).item()
+
+      else:
+        weights_q[w] = weights_fp[w] #Bias remains unquantized
+
+
+  return weights_q, w_fp_min_max, w_q_min_max
+
+
+'''
+Functionality Testing
+
+weights=dict()
+weights['net.0.weight']=torch.randn(10,10)
+weights['net.0.bias']=torch.randn(10)
+weights['net.1.weight']=torch.randn(5,5)
+weights['net.1.bias']=torch.randn(5)
+
+combinations=[['stochastic_rounding', 'uniform_range'], 
+              ['stochastic_rounding', 'prior_normal'],
+              ['stochastic_rounding', 'histogram'],
+              ['normal_rounding', 'uniform_range'], 
+              ['normal_rounding', 'prior_normal'],
+              ['normal_rounding', 'histogram'],
+              ['mid_rise', None]]
+
+for i in combinations:
+  print(" Quant Technique : ", i[0] , ", Mapping Technique : ", i[1])
+  x,y,z=qat_quantization (weights, 2, i[0], i[1])
+  
+  for i in x:
+    intm = x[i].detach().cpu()
+    print(i, " : ", len(np.unique(intm)))
+
+Results:  
+Quant Technique :  stochastic_rounding , Mapping Technique :  uniform_range
+net.0.weight  :  4
+net.0.bias  :  10
+net.1.weight  :  4
+net.1.bias  :  5
+ Quant Technique :  stochastic_rounding , Mapping Technique :  prior_normal
+net.0.weight  :  4
+net.0.bias  :  10
+net.1.weight  :  4
+net.1.bias  :  5
+ Quant Technique :  stochastic_rounding , Mapping Technique :  histogram
+net.0.weight  :  4
+net.0.bias  :  10
+net.1.weight  :  4
+net.1.bias  :  5
+ Quant Technique :  normal_rounding , Mapping Technique :  uniform_range
+net.0.weight  :  4
+net.0.bias  :  10
+net.1.weight  :  4
+net.1.bias  :  5
+ Quant Technique :  normal_rounding , Mapping Technique :  prior_normal
+net.0.weight  :  4
+net.0.bias  :  10
+net.1.weight  :  4
+net.1.bias  :  5
+ Quant Technique :  normal_rounding , Mapping Technique :  histogram
+net.0.weight  :  4
+net.0.bias  :  10
+net.1.weight  :  4
+net.1.bias  :  5
+ Quant Technique :  mid_rise , Mapping Technique :  None
+net.0.weight  :  5
+net.0.bias  :  10
+net.1.weight  :  5
+net.1.bias  :  5
+'''
+
+################################################################################################
+################################################################################################
+
+
 '''
 Generate Accuracy vs Precision plots for various Quantization
 Argument: From all .csv files within results directory
@@ -501,7 +708,3 @@ def plot_delta_accuracy_vs_delta_precision(combined_results_file, plots_dir_path
     plt.clf()
 
     return None
-
-
-# plot_accuracy_vs_precision('../data/results', '../data/plots')
-# plot_delta_accuracy_vs_delta_precision('../data/results/combined_results.csv', '../data/plots')
