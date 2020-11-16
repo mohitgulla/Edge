@@ -122,7 +122,36 @@ def quantization_eval_results(model_name,train_set,test_set,batch_size,criterion
   results["test_acc"] = test_accuracy_list
   return results
 
-def main(train_model=True):
+def pruning_eval_results(model_name,train_set,test_set,batch_size,criterion):
+  results = pruning_multiple(model_name)
+  train_loss_list = []
+  train_accuracy_list = []
+  test_loss_list = []
+  test_accuracy_list = []
+  for i in results["pruned_model_artifact"]:
+    train_loss, train_accuracy = evaluate(model=i, 
+                                        test_set = train_set,
+                                        batch_size=batch_size, 
+                                        criterion=criterion,
+                                        ep=0) 
+    test_loss, test_accuracy = evaluate(model=i, 
+                                        test_set = test_set,
+                                        batch_size=batch_size, 
+                                        criterion=criterion,
+                                        ep=0)  
+    train_loss_list.append(train_loss.item())
+    test_loss_list.append(test_loss.item())
+    train_accuracy_list.append(train_accuracy)
+    test_accuracy_list.append(test_accuracy)
+    # print("End of training, test loss =  {}, test accuracy = {} \n".format(train_loss, train_accuracy))
+    # print("End of training, test loss =  {}, test accuracy = {} \n".format(test_loss, test_accuracy))
+  results["train_loss"] = train_loss_list
+  results["train_acc"] = train_accuracy_list
+  results["test_loss"] = test_loss_list
+  results["test_acc"] = test_accuracy_list
+  return results
+
+def main(train_model=True,pruning=False,quantize=False):
 ## main
   input_dim =  13
   output_classes = 2
@@ -186,13 +215,23 @@ def main(train_model=True):
           skip_train_set=False)  
     torch.save(model_complex, os.path.join(model_dir, model_complex_name))
   else:
-    criterion = nn.CrossEntropyLoss()
-    path_result = "data/results/"
+    if (pruning):
+      criterion = nn.CrossEntropyLoss()
+      path_result = "data/results/"
 
-    results_simple = quantization_eval_results(model_simple_name,train_set=train_set,test_set=test_set,batch_size=batch_size,criterion=criterion)
-    results_complex = quantization_eval_results(model_complex_name,train_set=train_set,test_set=test_set,batch_size=batch_size,criterion=criterion)
-    time_stamp = str(datetime.now())
-    results_simple.to_csv(path_result + "churn_simple_" +time_stamp+ ".csv")
-    results_complex.to_csv(path_result + "churn_complex_"+time_stamp+".csv")
+      results_simple = pruning_eval_results(model_simple_name,train_set=train_set,test_set=test_set,batch_size=batch_size,criterion=criterion)
+      results_complex = pruning_eval_results(model_complex_name,train_set=train_set,test_set=test_set,batch_size=batch_size,criterion=criterion)
+      time_stamp = str(datetime.now())
+      results_simple.to_csv(path_result + "Pruning_churn_simple_" +time_stamp+ ".csv")
+      results_complex.to_csv(path_result + "Pruning_churn_complex_"+time_stamp+".csv")
+    if (quantize):
+      criterion = nn.CrossEntropyLoss()
+      path_result = "data/results/"
+
+      results_simple = quantization_eval_results(model_simple_name,train_set=train_set,test_set=test_set,batch_size=batch_size,criterion=criterion)
+      results_complex = quantization_eval_results(model_complex_name,train_set=train_set,test_set=test_set,batch_size=batch_size,criterion=criterion)
+      time_stamp = str(datetime.now())
+      results_simple.to_csv(path_result + "churn_simple_" +time_stamp+ ".csv")
+      results_complex.to_csv(path_result + "churn_complex_"+time_stamp+".csv")
 if __name__ == "__main__":
-  main(train_model=False)
+  main(train_model=False,pruning=True,quantize=False)
