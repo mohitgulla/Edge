@@ -1,0 +1,131 @@
+,model,pruning_percentage,model_artifact,pruned_model_artifact,train_loss,train_acc,test_loss,test_acc
+0,telescope_simple.pt,0.0,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)","DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)",0.3387513756752014,0.8621626358219419,0.3451032042503357,0.8588328075709779
+1,telescope_simple.pt,0.25,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)","DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)",0.3530477285385132,0.8540133193130038,0.36085185408592224,0.8456887486855941
+2,telescope_simple.pt,0.5,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)","DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)",0.3903886377811432,0.8428846827900456,0.39940038323402405,0.8275499474237644
+3,telescope_simple.pt,0.6,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)","DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)",0.4684889316558838,0.7911847178408693,0.4769861102104187,0.7765509989484752
+4,telescope_simple.pt,0.7,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)","DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)",0.5162217020988464,0.7721696459866807,0.5287647247314453,0.7599894847528917
+5,telescope_simple.pt,0.8,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)","DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)",0.4676695466041565,0.8015247108307045,0.47319889068603516,0.7975814931650894
+6,telescope_simple.pt,0.9,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)","DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)",0.6668933629989624,0.6459866806869962,0.6566677093505859,0.6632492113564669
+7,telescope_simple.pt,0.95,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)","DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)",0.8551499843597412,0.34630213810024535,0.8455361127853394,0.3601472134595163
+8,telescope_simple.pt,0.97,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)","DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)",0.855149507522583,0.34630213810024535,0.8455957174301147,0.3601472134595163
+9,telescope_simple.pt,0.99,"DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)","DenseNeuralNet(
+  (net): Sequential(
+    (0): Linear(in_features=10, out_features=10, bias=True)
+    (1): ReLU()
+    (2): Linear(in_features=10, out_features=2, bias=True)
+  )
+)",0.8551497459411621,0.34630213810024535,0.845714807510376,0.3601472134595163
