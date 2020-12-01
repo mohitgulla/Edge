@@ -1,6 +1,3 @@
-## Energy Efficient AI
-
-
 
 [![Contributors][contributors-shield]][contributors-url]
 [![Forks][forks-shield]][forks-url]
@@ -18,10 +15,10 @@
     <img src="data/results/archive/banner.png" alt="Logo" width="500" height="100">
   </a>
 
-  <h3 align="center">Energy Efficient AI</h3>
+  <h3 align="center">Energy Efficient Deep Learning</h3>
 
   <p align="center">
-    project_description
+    Repository of Capstone Work at Columbia University Data Science Institute in collaboration with GE Research 
     <br />
     <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
     <br />
