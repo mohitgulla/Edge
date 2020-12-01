@@ -33,10 +33,10 @@
 
 ## About The Project
 
-The project aims to develop techniques for training and inference of deep learning models with reduced carbon footprint. 
+The project aims to develop techniques for training and inference of machine learning models with reduced carbon footprint. 
 Recent estimates suggest training deep learning models such as BERT, ELMo and GPT-2 requires training on multiple GPU's for a few days. 
 The carbon emissions from training a deep learning model is equivalent to 5 times the lifetime emissions of an average car. 
-Hence, GE requires low-latency and lighter machine learning models without compromising accuracy, which can be deployed on GE's EDGE devices. 
+Hence, GE requires low-latency and lighter deep learning models without compromising accuracy, which can be deployed on GE's EDGE devices. 
 Our objective is to explore techniques to store a model using lower precision and assessing its effect during inference. 
 
 
