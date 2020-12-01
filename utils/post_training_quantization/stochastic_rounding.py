@@ -3,7 +3,8 @@ import torch
 
 from utils.util_functions import unique_value_generator, stochastic_quant
 
-def quantization(model_name, precision = [16, 12, 10, 8, 6, 4], unique_val_method = ['uniform_range', 'prior_normal', 'histogram']):
+
+def quantization(model_name, precision=[16, 12, 10, 8, 6, 4], unique_val_method=['uniform_range', 'prior_normal', 'histogram']):
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     model_object = 'model_artifacts/' + model_name
     results = pd.DataFrame(columns=['model', 'quant_method', 'bin_method', 'precision', 'model_artifact',
@@ -21,6 +22,14 @@ def quantization(model_name, precision = [16, 12, 10, 8, 6, 4], unique_val_metho
                 weights[w] = stochastic_quant(weights[w], unique_values[w])
             for name, params in model.named_parameters():
                 params.data.copy_(weights[name])
+            results = results.append(
+                {'model': model_name,
+                 'quant_method': 'mid_rise',
+                 'bin_method': 'full_range',
+                 'precision': p,
+                 'model_artifact': model},
+                ignore_index=True
+            )
 
             # Appending results
             results = results.append(
@@ -33,4 +42,3 @@ def quantization(model_name, precision = [16, 12, 10, 8, 6, 4], unique_val_metho
             )
 
     return results
-

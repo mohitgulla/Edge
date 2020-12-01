@@ -213,8 +213,11 @@ net.1.bias  :  5
 
 def get_slope(w_fp_min_max, w_q_min_max, name):
     """ calculate the constant slope gradient """
-    val = (w_q_min_max[name]['max'] - w_q_min_max[name]['min']) / (
-                w_fp_min_max[name]['max'] - w_fp_min_max[name]['min'])
+    try:
+        val = (w_q_min_max[name]['max'] - w_q_min_max[name]['min']) / (
+            w_fp_min_max[name]['max'] - w_fp_min_max[name]['min'])
+    except Exception as e:
+        val = 1.0
     return val
 
 
@@ -266,7 +269,7 @@ def run_qat_simulations():
     for p in precison_values:
         for quant_method in quant_methods:
             bin_methods = bin_map[quant_method]
-            ## for mid_rise type
+            # for mid_rise type
             if bin_methods == None:
                 qat_params = {
                     'quant_method': quant_method,
