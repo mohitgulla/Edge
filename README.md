@@ -12,28 +12,18 @@
 <br />
 <p align="center">
   <a href="https://github.com/mohitgulla/Edge">
-    <img src="data/results/archive/banner.png" alt="Logo" width="500" height="100">
+    <img src="data/results/archive/banner.png" alt="Logo" width="600" height="100">
   </a>
 
   <h3 align="center">Energy Efficient Deep Learning</h3>
 
   <p align="center">
-    Repository of Capstone Work at Columbia University Data Science Institute in collaboration with GE Research 
+    Repository of Capstone Work at Data Science Institute, Columbia University in collaboration with GE Research 
     <br />
-    <a href="https://github.com/github_username/repo_name"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/github_username/repo_name">View Demo</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/github_username/repo_name/issues">Request Feature</a>
   </p>
 </p>
 
 
-
-<!-- TABLE OF CONTENTS -->
 <details open="open">
   <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
