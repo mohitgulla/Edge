@@ -12,7 +12,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/mohitgulla/Edge">
-    <img src="data/results/archive/banner.png" alt="Logo" width="600" height="100">
+    <img src="data/results/archive/banner.png" alt="Logo" width="500" height="100">
   </a>
 
   <h3 align="center">Energy Efficient Deep Learning</h3>
@@ -24,8 +24,7 @@
 </p>
 
 
-<details open="open">
-  <summary><h2 style="display: inline-block">Table of Contents</h2></summary>
+<summary><h2 style="display: inline-block">Table of Contents</h2></summary>
   <ol>
     <li>
       <a href="#about-the-project">About The Project</a>
@@ -47,8 +46,6 @@
     <li><a href="#contact">Contact</a></li>
     <li><a href="#acknowledgements">Acknowledgements</a></li>
   </ol>
-</details>
-
 
 
 <!-- ABOUT THE PROJECT -->
