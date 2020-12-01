@@ -15,7 +15,7 @@
 <br />
 <p align="center">
   <a href="https://github.com/mohitgulla/Edge">
-    <img src="data/results/archive/banner.png" alt="Logo" width="400" height="100">
+    <img src="data/results/archive/banner.png" alt="Logo" width="500" height="100">
   </a>
 
   <h3 align="center">Energy Efficient AI</h3>
