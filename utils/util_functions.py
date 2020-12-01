@@ -14,6 +14,27 @@ import torchvision.transforms as transforms
 from scipy.stats import norm, rankdata
 from sklearn.model_selection import train_test_split
 from torch.utils.data import Subset
+from utils.post_training_quantization import mid_rise_quantization,stochastic_rounding,rounding
+
+'''
+unified method to quantize using regular rounding, stochastic rounding, mid-rise.
+for regular rounding and stochastic rounding, it will produce results using 'uniform_range', 'prior_normal', 'histogram 
+call as:
+  quantize_using_all_postTrainingQuantization(model_name, [8,7])
+'''
+def quantize_using_all_postTrainingQuantization(model_name, precision=[8,6,4,2]):
+  print('Starting quantization using "Mid-Rise Quantization"')
+  results_1 = mid_rise_quantization.quantization(model_name, precision)
+
+  print('\nStarting quantization using "Stochastic Rounding Quantization"')
+  results_2 = stochastic_rounding.quantization(model_name, precision)
+
+  print('\nStarting quantization using "Regular Rounding Quantization"')
+  results_3 = rounding.quantization(model_name, precision)
+
+  results = pd.concat([results_1,results_2,results_3])
+  results.reset_index(drop=True, inplace=True)
+  return results
 
 
 def get_cifar_dataset(train=True):
@@ -206,8 +227,16 @@ Input:
   unique_values = torch.tensor([0.5, 1.5])
 '''
 
-
 def rounding_quant(weights, unique_values):
+  qset_numpy = unique_values.detach().cpu().numpy()
+  weights_numpy = weights.detach().cpu().flatten().numpy()
+  b = [(qset_numpy[i]+qset_numpy[i-1])/2.0 for i in range(1, len(qset_numpy))]
+  temp = stats.binned_statistic(weights_numpy, weights_numpy, 'sum', bins=b)
+  weights_quantized = torch.tensor(qset_numpy[temp[2]]).reshape(weights.shape)
+  weights_quantized = weights_quantized.to(weights.device)
+  return weights_quantized
+
+def rounding_quant_old(weights, unique_values):
     # inner helper function
     def rounding_helper(w):
         # i = 0

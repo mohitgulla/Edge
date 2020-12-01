@@ -25,7 +25,7 @@ def quantization(model_name, precision = [16, 12, 10, 8, 6, 4], unique_val_metho
                 params.data.copy_(weights[name])
 
             results = results.append({'model': model_name,
-                                      'quant_method': 'normal_rounding',
+                                      'quant_method': 'regular_rounding',
                                       'bin_method': i,
                                       'precision': p,
                                       'model_artifact': model},
