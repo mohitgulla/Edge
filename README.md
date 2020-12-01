@@ -41,12 +41,9 @@ Our objective is to explore techniques that enable us to store a model in lower 
 
 ## Contributors
 
-Sponsor: Tapan Shah | Lead Machine Learning Scientist, GE Research <br>
-Advisor: Eleni Drinea | Lecturer, Data Science Institute, Columbia University <br>
-Team: Mohit Gulla, Kumari Nishu, Neelam Patodia, Prasham Sheth, Pritam Biswas | DSI Class of 2020
-
-[![Contributors][contributors-shield]][contributors-url]
-
+Sponsor: Tapan Shah - Lead Machine Learning Scientist, GE Research <br>
+Advisor: Eleni Drinea - Lecturer, Data Science Institute, Columbia University <br>
+Team: Mohit Gulla, Kumari Nishu, Neelam Patodia, Prasham Sheth, Pritam Biswas - DSI Class of 2020
 
 ### Prerequisites
 
