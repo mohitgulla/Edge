@@ -20,7 +20,7 @@
       <a href="#about-the-project">About The Project</a>
     </li>
     <li>
-      <a href="#getting-started">Contributors</a>
+      <a href="#contributors">Contributors</a>
     </li>
     <li><a href="#usage">Usage</a></li>
     <li><a href="#roadmap">Roadmap</a></li>
@@ -43,9 +43,9 @@ Our objective is to explore techniques that enable us to store a model in lower 
 
 Sponsor: Tapan Shah - Lead Machine Learning Scientist, GE Research <br>
 Advisor: Eleni Drinea - Lecturer, Data Science Institute, Columbia University <br>
-Team: Mohit Gulla, Kumari Nishu, Neelam Patodia, Prasham Sheth, Pritam Biswas - DSI Class of 2020
+Team: Mohit Gulla, Kumari Nishu, Neelam Patodia, Prasham Sheth, Pritam Biswas
 
-### Prerequisites
+## Usage
 
 This is an example of how to list things you need to use the software and how to install them.
 * npm
