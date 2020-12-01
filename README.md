@@ -26,6 +26,9 @@
         <ul><a href="#demo">Demo / Tutorial</a></ul>
         <ul><a href="#directories">Directory Structure</a></ul>
     </li>
+    <li>
+      <a href="#methods">Methodology</a>
+    </li>
   </ol>
 
 
