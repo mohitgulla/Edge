@@ -37,14 +37,16 @@ The project aims to develop techniques for training and inference of machine lea
 Recent estimates suggest training deep learning models such as BERT, ELMo and GPT-2 requires training on multiple GPU's for a few days. 
 The carbon emissions from training a deep learning model is equivalent to 5 times the lifetime emissions of an average car. 
 Hence, GE requires low-latency and lighter deep learning models without compromising accuracy, which can be deployed on GE's EDGE devices. 
-Our objective is to explore techniques to store a model using lower precision and assessing its effect during inference. 
+Our objective is to explore techniques that enable us to store a model in lower precision and assess its effect during inference. 
 
+## Contributors
 
+Sponsor: Tapan Shah | Lead Machine Learning Scientist, GE Research <br>
+Advisor: Eleni Drinea | Lecturer, Data Science Institute, Columbia University <br>
+Team: Mohit Gulla, Kumari Nishu, Neelam Patodia, Prasham Sheth, Pritam Biswas | DSI Class of 2020
 
-<!-- GETTING STARTED -->
-## Getting Started
+[![Contributors][contributors-shield]][contributors-url]
 
-To get a local copy up and running follow these simple steps.
 
 ### Prerequisites
 
@@ -126,7 +128,7 @@ Project Link: [https://github.com/github_username/repo_name](https://github.com/
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [contributors-shield]: https://img.shields.io/github/contributors/github_username/repo.svg?style=for-the-badge
-[contributors-url]: https://github.com/github_username/repo/graphs/contributors
+[contributors-url]: https://github.com/mohitgulla/Edge/graphs/contributors
 [forks-shield]: https://img.shields.io/github/forks/github_username/repo.svg?style=for-the-badge
 [forks-url]: https://github.com/github_username/repo/network/members
 [stars-shield]: https://img.shields.io/github/stars/github_username/repo.svg?style=for-the-badge
