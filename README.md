@@ -49,24 +49,23 @@ Eleni Drinea - Lecturer, Data Science Institute, Columbia University<br>
 
 <b>Capstone Team:</b>
 
-<a href="https://github.com/mohitgulla">Mohit Chander Gulla</a>
-
-<a href="https://github.com/kumari-nishu">Kumari Nishu</a>
-
-<a href="https://github.com/NeelamPatodia">Neelam Patodia</a>
-
-<a href="https://github.com/Prasham8897">Prasham Sheth</a>
-
+<a href="https://github.com/mohitgulla">Mohit Gulla</a>,
+<a href="https://github.com/kumari-nishu">Kumari Nishu</a>,
+<a href="https://github.com/NeelamPatodia">Neelam Patodia</a>,
+<a href="https://github.com/Prasham8897">Prasham Sheth</a>,
 <a href="https://github.com/Pritam-Biswas">Pritam Biswas</a>
 
 
 
 ## Usage
 
-### Demo / Tutorial
+#### Demo / Tutorial
 
-The 
+For a detailed walkthrough of the main techniques, i.e. multi-point mixed precision post-training quantization, pruning, and quantization aware training, please refer to notebook `Demo_Code.ipynb`.
 
+#### Directory Structure
+
+- `data` - contains .py files with contain class definition of PyTorch dataset and the corresponding .dat file. The datasets explored in our experiments are ANN based Classification: <a href="https://www.kaggle.com/filippoo/deep-learning-az-ann">Churn Data</a> and <a href="http://archive.ics.uci.edu/ml">Telescope Data</a>, ANN based Regression: <a href="https://sci2s.ugr.es/keel/dataset.php?cod=84#sub1">MV Data</a> and <a href="https://sci2s.ugr.es/keel/dataset.php?cod=83#sub2 ">California Housing Data</a> and CNN based Classification: <a href = "https://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-100</a> and <a href="https://deepobs.readthedocs.io/en/stable/api/datasets/fmnist.html">FMNIST Data</a>. A subdirectory `results` conatins .csv files which track training and validation accuracy and loss at different precision levels from the experiments that were conducted.   
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
