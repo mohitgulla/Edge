@@ -42,11 +42,30 @@ Our objective is to explore techniques that enable us to store a model in lower 
 
 ## Contributors
 
-Sponsor: Tapan Shah - Lead Machine Learning Scientist, GE Research <br>
-Advisor: Eleni Drinea - Lecturer, Data Science Institute, Columbia University <br>
-Team: Mohit Gulla, Kumari Nishu, Neelam Patodia, Prasham Sheth, Pritam Biswas
+<b>Mentors:</b> 
+
+Tapan Shah - Lead Machine Learning Scientist, GE Research<br>
+Eleni Drinea - Lecturer, Data Science Institute, Columbia University<br>
+
+<b>Capstone Team:</b>
+
+<a href="https://github.com/mohitgulla">Mohit Chander Gulla</a>
+
+<a href="https://github.com/kumari-nishu">Kumari Nishu</a>
+
+<a href="https://github.com/NeelamPatodia">Neelam Patodia</a>
+
+<a href="https://github.com/Prasham8897">Prasham Sheth</a>
+
+<a href="https://github.com/Pritam-Biswas">Pritam Biswas</a>
+
+
 
 ## Usage
+
+### Demo / Tutorial
+
+The 
 
 
 <!-- MARKDOWN LINKS & IMAGES -->
