@@ -71,15 +71,15 @@ For a detailed walkthrough of the main techniques, i.e. multi-point mixed precis
 
 #### Directory Structure
 
-- `data` - contains .py files with contain class definition of PyTorch dataset and the corresponding .dat file. The datasets explored are ANN based Classification: <a href="https://www.kaggle.com/filippoo/deep-learning-az-ann">Churn</a> and <a href="http://archive.ics.uci.edu/ml">Telescope</a>, ANN based Regression: <a href="https://sci2s.ugr.es/keel/dataset.php?cod=84#sub1">MV Data</a> and <a href="https://sci2s.ugr.es/keel/dataset.php?cod=83#sub2 ">California Housing</a> and CNN based Classification: <a href = "https://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-100</a> and <a href="https://deepobs.readthedocs.io/en/stable/api/datasets/fmnist.html">FMNIST</a>. A subdirectory `results` conatins .csv files which track accuracy and loss at different precision levels from the experiments that were conducted.   
+- `data` - contains .py files with contain class definition of PyTorch dataset and the corresponding .dat file. The datasets explored are ANN based Classification: <a href="https://www.kaggle.com/filippoo/deep-learning-az-ann">Churn</a> and <a href="http://archive.ics.uci.edu/ml">Telescope</a>, ANN based Regression: <a href="https://sci2s.ugr.es/keel/dataset.php?cod=84#sub1">MV Data</a> and <a href="https://sci2s.ugr.es/keel/dataset.php?cod=83#sub2 ">California Housing</a> and CNN based Classification: <a href = "https://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-100</a> and <a href="https://deepobs.readthedocs.io/en/stable/api/datasets/fmnist.html">FMNIST</a>. A subdirectory `results` conatins .csv files which track accuracy and loss at different precision levels from the experiments we conducted.   
 
 - `model` - contains .py files with model class definition for Dense Neural Networks (DNNs) and Convolutional Neural Networks (CNNs). The various architectures of each model type are defined as separate class objects within its corresponding .py file. 
 
 - `model_artifacts` - contains .pt files of full precision trained models.
 
-- `utils` - contains .py files with post-training quantization, pruning and quantization-aware training methods which were explored. In post-training quantization we have implemented single-point methods such as mid-rise quantization, regular rounding, stochastic rounding and multi-point methods such as mixed precision multipoint quantization. Each method is designed to be a standalone functionality that can be used anywhere else if needed. It also contains utility code for fetching datasets, plotting graphs, etc.
+- `utils` - contains .py files with post-training quantization, pruning and quantization-aware training methods which were explored. In post-training quantization we have implemented single-point methods such as mid-rise quantization, regular rounding, stochastic rounding and multi-point method such as the mixed precision multipoint quantization. Each method is designed to be a standalone functionality. It also contains utility code for fetching datasets, plotting graphs, etc.
 
-All *.ipynb and *.py files in main directory has the comprehensive code for model training, quantization and evaluation. They leverage the code base from the sub-directories.
+All *.ipynb and *.py files in main directory has the comprehensive code for model training, weight quantization and evaluation. They leverage the code base from the sub-directories.
 
 ## Methodology
 
@@ -100,7 +100,7 @@ All *.ipynb and *.py files in main directory has the comprehensive code for mode
 - Quantization Set - collect a set of landmark values using uniform bis, histogram, prior normal on weight values
 - Assign each weight value to either the closest smaller value or the closest larger value from quantization set probabilistically
 
-<i>Multi-point Quantization approximates a weight value using linear combination of multiple values of low precision.
+<i>Multi-point Quantization approximates a weight value using linear combination of multiple values of low precision.</i>
 
 4.  Multi-point - mixed precision method 
 - Assign more bits to important layers, and fewer bits to unimportant layers to balance the accuracy and cost more efficiently
