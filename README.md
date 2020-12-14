@@ -28,6 +28,12 @@
     </li>
     <li>
       <a href="#methods">Methodology</a>
+        <ul><a href="#post">Post-Training Quantization</a></ul>
+        <ul><a href="#pruning">Pruning</a></ul>
+        <ul><a href="#qat">Quantization-Aware Training</a></ul>
+    </li>
+    <li>
+      <a href="#future">Future Work</a>
     </li>
   </ol>
 
@@ -65,7 +71,76 @@ For a detailed walkthrough of the main techniques, i.e. multi-point mixed precis
 
 #### Directory Structure
 
-- `data` - contains .py files with contain class definition of PyTorch dataset and the corresponding .dat file. The datasets explored in our experiments are ANN based Classification: <a href="https://www.kaggle.com/filippoo/deep-learning-az-ann">Churn Data</a> and <a href="http://archive.ics.uci.edu/ml">Telescope Data</a>, ANN based Regression: <a href="https://sci2s.ugr.es/keel/dataset.php?cod=84#sub1">MV Data</a> and <a href="https://sci2s.ugr.es/keel/dataset.php?cod=83#sub2 ">California Housing Data</a> and CNN based Classification: <a href = "https://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-100</a> and <a href="https://deepobs.readthedocs.io/en/stable/api/datasets/fmnist.html">FMNIST Data</a>. A subdirectory `results` conatins .csv files which track training and validation accuracy and loss at different precision levels from the experiments that were conducted.   
+- `data` - contains .py files with contain class definition of PyTorch dataset and the corresponding .dat file. The datasets explored in our experiments are ANN based Classification: <a href="https://www.kaggle.com/filippoo/deep-learning-az-ann">Churn</a> and <a href="http://archive.ics.uci.edu/ml">Telescope</a>, ANN based Regression: <a href="https://sci2s.ugr.es/keel/dataset.php?cod=84#sub1">MV Data</a> and <a href="https://sci2s.ugr.es/keel/dataset.php?cod=83#sub2 ">California Housing</a> and CNN based Classification: <a href = "https://www.cs.toronto.edu/~kriz/cifar.html">CIFAR-100</a> and <a href="https://deepobs.readthedocs.io/en/stable/api/datasets/fmnist.html">FMNIST</a>. A subdirectory `results` conatins .csv files which track training and validation accuracy and loss at different precision levels from the experiments that were conducted.   
+
+- `model` - contains .py files with model class definition for Dense Neural Networks (DNNs) and Convolutional Neural Networks (CNNs). The various architectures of each model type are defined as separate class objects within its corresponding .py file. 
+
+- `model_artifacts` - contains .pt files of full precision trained models.
+
+- `utils` - contains .py files with post-training quantization, pruning and quantization-aware training methods which were explored. In post-training quantization we have implemented single-point methods such as mid-rise quantization, regular rounding, stochastic rounding and multi-point methods such as mixed precision multipoint quantization. Each method is designed to be a standalone functionality that can be used anywhere else if needed. It also contains utility code for fetching datasets, plotting graphs, etc.
+
+All *.ipynb and *.py files in main directory has the comprehensive code for model training, quantization and evaluation. They leverage the code base from the sub-directories.
+
+## Methodology
+
+#### Post Training Quantization
+
+Single-point Quantization approximates a weight value using a single low precision number.
+
+1. Mid-Rise 
+- Delta - controls granularity of data quantization, high delta implies high quantization and significant loss of information
+- Uniform division of range of Weight values into 2^p bins for p precision
+- w_quantized = Delta * (floor(w/Delta) + 0.5)
+
+2. Regular Rounding
+- Quantization Set - collect a set of landmark values using uniform bin, histogram, prior normal on weight values
+- Map each weight value to the nearest landmark value from quantization set
+
+3. Stochastic Rounding
+- Quantization Set - collect a set of landmark values using uniform bis, histogram, prior normal on weight values
+- Assign each weight value to either the closest smaller value or the closest larger value from quantization set probabilistically
+
+Multi-point Quantization approximates a weight value using a linear combination of multiple values of low precision.
+
+4.  Multi-point - mixed precision method 
+- Assign more bits to important layers, and fewer bits to unimportant layers to balance the accuracy and cost more efficiently
+- Achieves the same flexibility as mixed precision hardware but using only a single-precision level
+- The quantization set is constructed using a uniform grid on [-1, 1] with increment epsilon and each weight value w is approximated as a linear combination of low precision weight vectors.
+
+#### Pruning
+
+It is a method of compression that involves removing less contributing weights from a trained model.
+
+- Setting the neural network parameters’ values to zero to remove what we estimate are less contributing (unnecessary connections) between the layers of a neural network.
+- Using the magnitude of weights to determine the importance of the weights towards the model’s performance.
+
+#### Quantization-Aware Training
+
+It is a process of training the model assuming that it will be quantized later during inference. The steps involved in QAT are:
+1. Initialize a full precision model
+2. Quantize model weights per layer
+3. Forward propagate and compute gradients
+4. Update gradients using straight through estimator
+5. Backprop on full precision model and return quantized model
+
+## Future Work
+
+<b>Model Size</b>
+
+To get a complete picture of each method’s effectiveness, we need to observe model size at different levels of precision. This relates to our objective of reducing the carbon footprint of deep learning models.
+
+<b>Quantize Activations</b>
+
+Along with quantization of weights, explore quantization of activations as well.
+
+<b>Improve Training Algorithm</b>
+
+Most of the carbon emissions are caused due to the intensive computations required during the training. (e.g.) BERT and GPT-3 require a lot a computation to learn the parameters. We can explore techniques to get smart weight updates and reduce computations required during the training. 
+
+<b>Hardware Simulations</b>
+
+Experiment on specialized low-precision hardware to accurately evaluate different quantization techniques.
+
 
 <!-- MARKDOWN LINKS & IMAGES -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
